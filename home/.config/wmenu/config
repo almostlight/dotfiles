@@ -1,0 +1,4 @@
+wmenu-run -i -p "Run:" -f "Monospace 12" \
+    -N "#1e1e2e" -n "#cdd6f4" \
+    -M "#cba6f7" -m "#1e1e2e" \
+    -S "#585b70" -s "#cdd6f4"
