@@ -2,6 +2,7 @@
 
 pkg_list="git curl tailscale sway waybar wmenu wl-clipboard neovim ranger unzip openssh alacritty base-devel fastfetch trash-cli fira-code-fonts"
 git_dir="$HOME/github"
+target_path="$git_dir/almostlight/dotfiles"
 
 # Install packages based on distro
 install_packages() {
@@ -26,6 +27,6 @@ install_packages
 clear
 mkdir -p "$git_dir"
 echo "Cloning dotfiles repository to $git_dir"
-git clone "https://github.com/almostlight/dotfiles.git" "$git_dir/dotfiles"
-exec "$git_dir/dotfiles/scripts/deploy.sh"
+git clone "https://github.com/almostlight/dotfiles.git" "$target_path"
+exec "$target_path/scripts/deploy.sh"
 
