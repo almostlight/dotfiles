@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e  # Exit on any error
 
-# Enable dotglob to include dotfiles
-old_shopt="$(shopt -p dotglob nullglob 2>/dev/null)"
-shopt -s dotglob nullglob
-
 git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci commit
@@ -69,6 +65,9 @@ link_directory_contents() {
         echo "Source directory not found: $source_dir" >&2
         return 1
     fi
+    # Enable dotglob to include dotfiles
+    local old_shopt=$(shopt -p dotglob nullglob 2>/dev/null)
+    shopt -s dotglob nullglob
     # Ensure target base directory exists
     mkdir -p "$target_base"
     # Ensure backup directory exists
@@ -82,6 +81,8 @@ link_directory_contents() {
         
         link_item "$item" "$target"
     done
+    # Restore original shopt settings if they existed
+    eval "$old_shopt" 2>/dev/null || true
 }
 
 # Link files
@@ -98,7 +99,5 @@ sudo tailscale set --operator=$USER
 sudo xhost +SI:localuser:root
 sudo systemctl enable --now systemd-timesyncd.service
 
-# Restore original shopt settings if they existed
-eval "$old_shopt" 2>/dev/null || true
 echo "Setup completed successfully"
 
