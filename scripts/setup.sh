@@ -23,9 +23,9 @@ install_packages() {
 
 
 install_packages
-
+clear
 mkdir -p "$git_dir"
-echo "Cloning repository to $git_dir"
+echo "Cloning dotfiles repository to $git_dir"
 git clone "https://github.com/almostlight/dotfiles.git" "$git_dir/dotfiles"
 exec "$git_dir/dotfiles/scripts/deploy.sh"
 
