@@ -94,6 +94,7 @@ if [[ -d "$HOME/.config/sway/scripts" ]]; then
     chmod +x "$HOME/.config/sway/scripts"/*
 fi
 # System configuration
+sudo systemctl enable --now tailscaled.service
 sudo tailscale set --operator=$USER
 sudo xhost +SI:localuser:root
 sudo systemctl enable --now systemd-timesyncd.service

@@ -19,14 +19,23 @@ install_packages() {
 			"https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 		# Install Brave Browser
 		curl -fsS https://dl.brave.com/install.sh | sh
+		# Install VS Code
+		sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
+		echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+		dnf check-update && sudo dnf install code
     fi
 }
 
 
 install_packages
 clear
+
+if [[ -e "$target_path" ]]; then
+	rm -rf "$target_path"
+fi
+
 mkdir -p "$git_dir"
-echo "Cloning dotfiles repository to $git_dir"
+echo "Cloning dotfiles repository..."
 git clone "https://github.com/almostlight/dotfiles.git" "$target_path"
 exec "$target_path/scripts/deploy.sh"
 
