@@ -11,3 +11,4 @@ x-scheme-handler/geo=google-maps-geo-handler.desktop;
 x-scheme-handler/http=brave-browser.desktop;
 x-scheme-handler/https=brave-browser.desktop;
 x-scheme-handler/mailto=net.thunderbird.Thunderbird.desktop;
+x-scheme-handler/adskidmgr=adskidmgr-opener.desktop

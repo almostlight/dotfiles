@@ -5,13 +5,12 @@ git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci commit
 git config --global alias.st status
+git config --global alias.al 'add --all'
 git config --global alias.unstage 'reset HEAD --'
 git config --global alias.last 'log -1 HEAD'
 git config --global alias.visual '!gitk'
 echo "Git aliases configured"
 
-pkg_list="git curl tailscale sway waybar wmenu wl-clipboard neovim ranger unzip openssh alacritty base-devel fastfetch trash-cli"
-# Link files
 script_dir=$(dirname "$(realpath -s "$0")")
 config_source=$(realpath -s "$script_dir/../home/.config")
 rc_source=$(realpath -s "$script_dir/../home/rc")
@@ -26,23 +25,11 @@ if [[ ! -d "$rc_source" ]]; then
     exit 1
 fi
 
-# Install packages based on distro
-install_packages() {
-    if command -v apt &> /dev/null; then
-        sudo apt update
-        sudo apt install -y $pkg_list
-    elif command -v pacman &> /dev/null; then
-        sudo pacman -Syu --noconfirm $pkg_list
-    elif command -v dnf &> /dev/null; then
-        sudo dnf install --skip-unavailable -y $pkg_list
-    fi
-}
 
 link_item() {
     local source_item="$1"
     local target="$2"
     local itemname=$(basename "$source_item")
-    
     # Backup existing file/directory
     if [[ -e "$target" || -L "$target" ]]; then
         # Create backup path that includes the item name
@@ -56,13 +43,10 @@ link_item() {
         
         cp -Lr "$target" "$backup_path" 2>/dev/null
     fi
-    
     # Remove existing item before creating symlink
     rm -rf "$target"
-    
     # Create parent directory if it doesn't exist
     mkdir -p "$(dirname "$target")"
-    
     # Create symbolic link
     if ln -sf "$source_item" "$target"; then
         echo "$itemname linked successfully to $target"
@@ -72,6 +56,7 @@ link_item() {
     fi
 }
 
+
 link_directory_contents() {
     local source_dir="$1"
     local target_base="$2"
@@ -80,10 +65,11 @@ link_directory_contents() {
         echo "Source directory not found: $source_dir" >&2
         return 1
     fi
-    
+    # Enable dotglob to include dotfiles
+    local old_shopt=$(shopt -p dotglob nullglob 2>/dev/null)
+    shopt -s dotglob nullglob
     # Ensure target base directory exists
     mkdir -p "$target_base"
-    
     # Ensure backup directory exists
     mkdir -p "$HOME/.backup"
     
@@ -95,22 +81,23 @@ link_directory_contents() {
         
         link_item "$item" "$target"
     done
+    # Restore original shopt settings if they existed
+    eval "$old_shopt" 2>/dev/null || true
 }
 
-install_packages
+# Link files
 link_directory_contents "$config_source" "$HOME/.config"
 link_directory_contents "$rc_source" "$HOME"
-
-# System configuration
-sudo tailscale set --operator=$USER
-sudo xhost +SI:localuser:root
-sudo systemctl enable --now systemd-timesyncd.service
-
 # Make scripts executable
 chmod +x "$script_dir"/*
 if [[ -d "$HOME/.config/sway/scripts" ]]; then
     chmod +x "$HOME/.config/sway/scripts"/*
 fi
+# System configuration
+sudo systemctl enable --now tailscaled.service
+sudo tailscale set --operator=$USER
+sudo xhost +SI:localuser:root
+sudo systemctl enable --now systemd-timesyncd.service
 
 echo "Setup completed successfully"
 
