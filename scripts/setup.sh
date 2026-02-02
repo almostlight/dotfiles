@@ -14,8 +14,8 @@ install_packages() {
         sudo dnf install --skip-unavailable -y $pkg_list
 		# Enable RPM Fusion repos
 		sudo dnf install \
-			https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-			https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+			"https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+			"https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 		# Install Brave Browser
 		curl -fsS https://dl.brave.com/install.sh | sh
     fi
