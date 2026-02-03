@@ -54,13 +54,13 @@ if [[ "$EDITOR" = "nvim" ]] || [[ "$VISUAL" = "nvim" ]]; then
 fi
 
 alias v='vim'
-alias vl='vim +"'"'"'0'
+alias vl='vim -c "'\''0"'
 alias ff='fastfetch'
 
 alias update-grub='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'
 # alias rm="rmtrash"
-alias rmdir='rmdirtrash'
-alias sudo='sudo '
+# alias rmdir='rmdirtrash'
+alias sudo='sudo'
 alias r='ranger'
 alias whereami='pwd'
 alias fuck='thefuck'
@@ -71,7 +71,7 @@ alias bt='bluetui'
 alias time_nvim='nvim --startuptime /dev/stdout +qall && echo && time nvim +q'
 alias sizeof='du -cksh'
 alias git-profile='xdg-open https://github.com/"$(git config user.name)"'
-alias git-autopush='git add --all && git commit -am "autosaving progress" && git push && git status'
+alias git-autopush='git add --all && git commit -am "saving progress" && git push && git status'
 alias wol='sudo ether-wake'
 
 alias kexec-reboot='\
@@ -79,9 +79,7 @@ alias kexec-reboot='\
         && sudo kexec -l /boot/vmlinuz-linux --initrd=/boot/initramfs-linux.img --reuse-cmdline \
         && sudo systemctl kexec'
 
-
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"

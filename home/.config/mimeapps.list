@@ -1,14 +1,14 @@
 [Added Associations]
 text/html=com.brave.Browser.desktop;brave-browser.desktop;org.mozilla.firefox.desktop;org.qutebrowser.qutebrowser.desktop;org.kde.kwrite.desktop;nvim.desktop;org.zotero.Zotero.desktop;okularApplication_txt.desktop;libreoffice-writer.desktop;
 x-scheme-handler/geo=google-maps-geo-handler.desktop;
-x-scheme-handler/http=brave-browser.desktop;
-x-scheme-handler/https=brave-browser.desktop;
+x-scheme-handler/http=com.brave.Browser.desktop;brave-browser.desktop;
+x-scheme-handler/https=com.brave.Browser.desktop;brave-browser.desktop;
 x-scheme-handler/mailto=net.thunderbird.Thunderbird.desktop;
 
 [Default Applications]
 text/html=com.brave.Browser.desktop;
 x-scheme-handler/geo=google-maps-geo-handler.desktop;
-x-scheme-handler/http=brave-browser.desktop;
-x-scheme-handler/https=brave-browser.desktop;
+x-scheme-handler/http=com.brave.Browser.desktop;
+x-scheme-handler/https=com.brave.Browser.desktop;
 x-scheme-handler/mailto=net.thunderbird.Thunderbird.desktop;
 x-scheme-handler/adskidmgr=adskidmgr-opener.desktop
