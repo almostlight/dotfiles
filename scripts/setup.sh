@@ -36,6 +36,6 @@ fi
 
 mkdir -p "$git_dir"
 echo "Cloning dotfiles repository..."
-git clone "https://github.com/almostlight/dotfiles.git" "$target_path"
+git clone "https://github.com/almostlight/dotfiles.git" "$target_path" --depth 1
 exec "$target_path/scripts/deploy.sh"
 
