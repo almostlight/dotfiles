@@ -273,6 +273,9 @@ toggle do not disturb=none,,Toggle do not disturb
 [services][Alacritty.desktop]
 _launch=Meta+Return
 
+[services][brave-dhjfpfibdipgfannpenhahgenhmfkioi-Default.desktop]
+_launch=Alt+_
+
 [services][code.desktop]
 _launch=Meta+C
 

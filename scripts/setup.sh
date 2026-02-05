@@ -17,6 +17,11 @@ install_packages() {
 		sudo dnf install \
 			"https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
 			"https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+		sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+		yes | sudo dnf install espanso-wayland
+		sudo setcap "cap_dac_override+p" $(which espanso)
+		espanso service register
+		# espanso start
 		# Install Brave Browser
 		curl -fsS https://dl.brave.com/install.sh | sh
 		# Install VS Code

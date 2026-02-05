@@ -1,0 +1,28 @@
+[Unit]
+Description=KDE Virtual Monitor with VNC Support
+After=graphical-session.target
+Requires=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/krfb-virtualmonitor --resolution 1600x1000 --name virtual --password 1234 --port 5900
+Restart=on-failure
+RestartSec=5
+Environment="DISPLAY=:0"
+Environment="XDG_RUNTIME_DIR=/run/user/%U"
+# If using Wayland, you might need:
+# Environment="WAYLAND_DISPLAY=wayland-0"
+# Environment="QT_QPA_PLATFORM=wayland"
+
+# Security/Resource limits
+Nice=0
+OOMScoreAdjust=-100
+
+# Logging (optional)
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
+

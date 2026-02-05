@@ -1,0 +1,474 @@
+# espanso match file
+
+# For a complete introduction, visit the official docs at: https://espanso.org/docs/
+
+# You can use this file to define the base matches (aka snippets)
+# that will be available in every application when using espanso.
+
+# Matches are substitution rules: when you type the "trigger" string
+# it gets replaced by the "replace" string.
+
+#yaml-language-server: $schema=https://raw.githubusercontent.com/espanso/espanso/dev/schemas/match.schema.json
+
+matches:
+  # ========================================
+  # ENVIRONMENTS
+  # ========================================
+  # - trigger: "bmat"
+  #   replace: |
+  #     \begin{bmatrix}
+  #       $|$ & \\
+  #        & 
+  #     \end{bmatrix}
+  #
+  # - trigger: "pmat"
+  #   replace: |
+  #     \begin{pmatrix}
+  #       $|$ & \\
+  #        & 
+  #     \end{pmatrix}
+  #
+  # - trigger: "vmat"
+  #   replace: |
+  #     \begin{vmatrix}
+  #       $|$ & \\
+  #        & 
+  #     \end{vmatrix}
+  #
+  - trigger: ";align"
+    replace: |
+      \begin{align}
+        $|$
+      \end{align}
+  
+  - trigger: ";eq"
+    replace: |
+      \begin{equation}
+        $|$
+      \end{equation}
+  
+  - trigger: ";cases"
+    replace: |
+      \begin{cases}
+        $|$ & \text{if } \\
+         & \text{if }
+      \end{cases}
+  
+  - trigger: ";item"
+    replace: |
+      \begin{itemize}
+        \item $|$
+      \end{itemize}
+  
+  - trigger: ";enum"
+    replace: |
+      \begin{enumerate}
+        \item $|$
+      \end{enumerate}
+
+  # ========================================
+  # FRACTIONS & ROOTS
+  # ========================================
+  - trigger: ";frac"
+    replace: "\\frac{$|$}{}"
+  
+  - trigger: ";dfrac"
+    replace: "\\dfrac{$|$}{}"
+  
+  - trigger: ";sqrt"
+    replace: "\\sqrt{$|$}"
+  
+  - trigger: ";nrt"
+    replace: "\\sqrt[$|$]{}"
+
+  # ========================================
+  # SUMS, PRODUCTS, INTEGRALS
+  # ========================================
+  - trigger: ";sum"
+    replace: "\\sum_{$|$}^{}"
+  
+  - trigger: ";prod"
+    replace: "\\prod_{$|$}^{}"
+  
+  - trigger: ";int"
+    replace: "\\int_{$|$}^{}"
+  
+  - trigger: ";iint"
+    replace: "\\iint_{$|$}"
+  
+  - trigger: ";iiint"
+    replace: "\\iiint_{$|$}"
+  
+  - trigger: ";oint"
+    replace: "\\oint_{$|$}^{}"
+  
+  - trigger: ";lim"
+    replace: "\\lim_{$|$}"
+
+  # ========================================
+  # SUBSCRIPTS & SUPERSCRIPTS
+  # ========================================
+  - trigger: "__"
+    replace: "_{$|$}"
+  
+  - trigger: "^^"
+    replace: "^{$|$}"
+
+  # ========================================
+  # GREEK LETTERS
+  # ========================================
+  - trigger: ";a"
+    replace: "\\alpha"
+  
+  - trigger: ";b"
+    replace: "\\beta"
+  
+  - trigger: ";g"
+    replace: "\\gamma"
+  
+  - trigger: ";G"
+    replace: "\\Gamma"
+  
+  - trigger: ";d"
+    replace: "\\delta"
+  
+  - trigger: ";D"
+    replace: "\\Delta"
+  
+  - trigger: ";e"
+    replace: "\\epsilon"
+  
+  - trigger: ";ve"
+    replace: "\\varepsilon"
+  
+  - trigger: ";z"
+    replace: "\\zeta"
+  
+  - trigger: ";t"
+    replace: "\\theta"
+  
+  - trigger: ";T"
+    replace: "\\Theta"
+  
+  - trigger: ";vt"
+    replace: "\\vartheta"
+  
+  - trigger: ";k"
+    replace: "\\kappa"
+  
+  - trigger: ";l"
+    replace: "\\lambda"
+  
+  - trigger: ";L"
+    replace: "\\Lambda"
+  
+  - trigger: ";m"
+    replace: "\\mu"
+  
+  - trigger: ";n"
+    replace: "\\nu"
+  
+  - trigger: ";x"
+    replace: "\\xi"
+  
+  - trigger: ";X"
+    replace: "\\Xi"
+  
+  - trigger: ";p"
+    replace: "\\pi"
+  
+  - trigger: ";P"
+    replace: "\\Pi"
+  
+  - trigger: ";r"
+    replace: "\\rho"
+  
+  - trigger: ";s"
+    replace: "\\sigma"
+  
+  - trigger: ";S"
+    replace: "\\Sigma"
+  
+  - trigger: ";ta"
+    replace: "\\tau"
+  
+  - trigger: ";f"
+    replace: "\\phi"
+  
+  - trigger: ";vf"
+    replace: "\\varphi"
+  
+  - trigger: ";F"
+    replace: "\\Phi"
+  
+  - trigger: ";c"
+    replace: "\\chi"
+  
+  - trigger: ";ps"
+    replace: "\\psi"
+  
+  - trigger: ";Ps"
+    replace: "\\Psi"
+  
+  - trigger: ";o"
+    replace: "\\omega"
+  
+  - trigger: ";O"
+    replace: "\\Omega"
+
+  # ========================================
+  # BLACKBOARD BOLD (SETS)
+  # ========================================
+  - trigger: ";R"
+    replace: "\\mathbb{R}"
+  
+  - trigger: ";N"
+    replace: "\\mathbb{N}"
+  
+  - trigger: ";Z"
+    replace: "\\mathbb{Z}"
+  
+  - trigger: ";Q"
+    replace: "\\mathbb{Q}"
+  
+  - trigger: ";C"
+    replace: "\\mathbb{C}"
+  
+  - trigger: ";E"
+    replace: "\\mathbb{E}"
+  
+  - trigger: ";P"
+    replace: "\\mathbb{P}"
+
+  # ========================================
+  # CALCULUS & OPERATORS
+  # ========================================
+  - trigger: ";pdv"
+    replace: "\\frac{\\partial $|$}{\\partial }"
+  
+  - trigger: ";dv"
+    replace: "\\frac{d $|$}{d }"
+  
+  - trigger: ";grad"
+    replace: "\\nabla"
+  
+  - trigger: ";div"
+    replace: "\\nabla \\cdot"
+  
+  - trigger: ";curl"
+    replace: "\\nabla \\times"
+
+  # ========================================
+  # DELIMITERS
+  # ========================================
+  - trigger: ";lr("
+    replace: "\\left( $|$ \\right)"
+  
+  - trigger: ";lr["
+    replace: "\\left[ $|$ \\right]"
+  
+  - trigger: ";lr{"
+    replace: "\\left\\{ $|$ \\right\\}"
+  
+  - trigger: ";lr|"
+    replace: "\\left| $|$ \\right|"
+  
+  - trigger: ";lra"
+    replace: "\\langle $|$ \\rangle"
+
+  # ========================================
+  # NORMS & BRACKETS
+  # ========================================
+  - trigger: ";norm"
+    replace: "\\left\\lVert $|$ \\right\\rVert"
+  
+  - trigger: ";abs"
+    replace: "\\left| $|$ \\right|"
+  
+  - trigger: ";floor"
+    replace: "\\left\\lfloor $|$ \\right\\rfloor"
+  
+  - trigger: ";ceil"
+    replace: "\\left\\lceil $|$ \\right\\rceil"
+
+  # ========================================
+  # ACCENTS & DECORATIONS
+  # ========================================
+  - trigger: ";hat"
+    replace: "\\hat{$|$}"
+  
+  - trigger: ";bar"
+    replace: "\\bar{$|$}"
+  
+  - trigger: ";tilde"
+    replace: "\\tilde{$|$}"
+  
+  - trigger: ";vec"
+    replace: "\\vec{$|$}"
+  
+  - trigger: ";dot"
+    replace: "\\dot{$|$}"
+  
+  - trigger: ";ddot"
+    replace: "\\ddot{$|$}"
+
+  # ========================================
+  # TEXT MODES
+  # ========================================
+  - trigger: ";txt"
+    replace: "\\text{$|$}"
+  
+  - trigger: ";bf"
+    replace: "\\mathbf{$|$}"
+  
+  - trigger: ";it"
+    replace: "\\mathit{$|$}"
+  
+  - trigger: ";rm"
+    replace: "\\mathrm{$|$}"
+  
+  - trigger: ";cal"
+    replace: "\\mathcal{$|$}"
+  
+  - trigger: ";scr"
+    replace: "\\mathscr{$|$}"
+  
+  - trigger: ";frak"
+    replace: "\\mathfrak{$|$}"
+
+  # ========================================
+  # ARROWS
+  # ========================================
+  - trigger: ";->"
+    replace: "\\to"
+  
+  - trigger: ";=>"
+    replace: "\\implies"
+  
+  - trigger: ";<=>"
+    replace: "\\iff"
+  
+  - trigger: ";<-"
+    replace: "\\leftarrow"
+  
+  - trigger: ";<->"
+    replace: "\\leftrightarrow"
+  
+  - trigger: ";lra"
+    replace: "\\longrightarrow"
+
+  # ========================================
+  # RELATIONS & OPERATORS
+  # ========================================
+  - trigger: ";<="
+    replace: "\\leq"
+  
+  - trigger: ";>="
+    replace: "\\geq"
+  
+  - trigger: ";!="
+    replace: "\\neq"
+  
+  - trigger: ";~="
+    replace: "\\approx"
+  
+  - trigger: ";=="
+    replace: "\\equiv"
+  
+  - trigger: ";:="
+    replace: "\\coloneqq"
+  
+  - trigger: ";in"
+    replace: "\\in"
+  
+  - trigger: ";notin"
+    replace: "\\notin"
+  
+  - trigger: ";subset"
+    replace: "\\subset"
+  
+  - trigger: ";subseteq"
+    replace: "\\subseteq"
+  
+  - trigger: ";cup"
+    replace: "\\cup"
+  
+  - trigger: ";cap"
+    replace: "\\cap"
+  
+  - trigger: ";times"
+    replace: "\\times"
+  
+  - trigger: ";cdot"
+    replace: "\\cdot"
+  
+  - trigger: ";circ"
+    replace: "\\circ"
+  
+  - trigger: ";oplus"
+    replace: "\\oplus"
+  
+  - trigger: ";otimes"
+    replace: "\\otimes"
+  
+  - trigger: ";pm"
+    replace: "\\pm"
+  
+  - trigger: ";infty"
+    replace: "\\infty"
+  
+  - trigger: ";partial"
+    replace: "\\partial"
+  
+  - trigger: ";forall"
+    replace: "\\forall"
+  
+  - trigger: ";exists"
+    replace: "\\exists"
+  
+  - trigger: ";empty"
+    replace: "\\emptyset"
+
+  # ========================================
+  # SPECIAL FUNCTIONS
+  # ========================================
+  - trigger: ";sin"
+    replace: "\\sin"
+  
+  - trigger: ";cos"
+    replace: "\\cos"
+  
+  - trigger: ";tan"
+    replace: "\\tan"
+  
+  - trigger: ";log"
+    replace: "\\log"
+  
+  - trigger: ";ln"
+    replace: "\\ln"
+  
+  - trigger: ";exp"
+    replace: "\\exp"
+  
+  - trigger: ";det"
+    replace: "\\det"
+  
+  - trigger: ";dim"
+    replace: "\\dim"
+  
+  - trigger: ";ker"
+    replace: "\\ker"
+  
+  - trigger: ";im"
+    replace: "\\text{im}"
+
+  # ========================================
+  # QUICK INLINE MATH
+  # ========================================
+  - trigger: ";$$"
+    replace: "$$$|$$$"
+  
+  - trigger: ";dm"
+    replace: "\\[ $|$ \\]"
+
+  

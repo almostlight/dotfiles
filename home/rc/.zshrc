@@ -74,10 +74,12 @@ alias git-profile='xdg-open https://github.com/"$(git config user.name)"'
 alias git-autopush='git add --all && git commit -am "saving progress" && git push && git status'
 alias wol='sudo ether-wake'
 
-alias kexec-reboot='\
-        echo "kernel: $(uname -r)" \
-        && sudo kexec -l /boot/vmlinuz-linux --initrd=/boot/initramfs-linux.img --reuse-cmdline \
-        && sudo systemctl kexec'
+kexec-reboot() {
+	local KERNEL="$(uname -r)"
+    echo "kernel: $KERNEL"
+	sudo kexec -l /boot/vmlinuz-"$KERNEL" --initrd=/boot/initramfs-"$KERNEL".img --reuse-cmdline \
+    && sudo systemctl kexec
+}
 
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
