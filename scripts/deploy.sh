@@ -25,7 +25,7 @@ git config --global alias.visual '!gitk'
 log_info "Git aliases configured"
 
 script_dir=$(dirname "$(realpath -s "$0")")
-config_source=$(realpath -s "$script_dir/../home/.config")
+config_source=$(realpath -s "$script_dir/../home/config")
 rc_source=$(realpath -s "$script_dir/../home/rc")
 
 if [[ ! -d "$config_source" ]]; then
@@ -54,7 +54,7 @@ link_item() {
         
         log_info "Backing up existing $itemname to $backup_path"
         
-        cp -Lr "$target" "$backup_path" 2>/dev/null
+        cp -Lr "$target" "$backup_path" #2>/dev/null
     fi
     # Remove existing item before creating symlink
     rm -rf "$target"
@@ -90,7 +90,7 @@ link_directory_contents() {
         [[ -e "$item" ]] || continue
         
         local itemname=$(basename "$item")
-        local target="$target_base/$itemname"
+		local target="$(realpath $target_base)/$itemname"
         
         link_item "$item" "$target"
     done
@@ -98,19 +98,29 @@ link_directory_contents() {
     eval "$old_shopt" 2>/dev/null || true
 }
 
-# Link files
-link_directory_contents "$config_source" "$HOME/.config"
-link_directory_contents "$rc_source" "$HOME"
 # Make scripts executable
-chmod +x "$script_dir"/*
+chmod +x "$script_dir"/linked/*
 if [[ -d "$HOME/.config/sway/scripts" ]]; then
     chmod +x "$HOME/.config/sway/scripts"/*
 fi
+# Link files
+link_directory_contents "$config_source" "$HOME/.config/"
+link_directory_contents "$rc_source" "$HOME"
+link_directory_contents "$script_dir/linked" "$HOME/.local/bin/"
 # System configuration
+log_info "Setting up Tailscale"
 sudo systemctl enable --now tailscaled.service
-sudo tailscale set --operator=$USER
+sudo tailscale set --operator=$USER && \
+	log_success "Tailscale setup complete"
 sudo xhost +SI:localuser:root
 sudo systemctl enable --now systemd-timesyncd.service
+sudo cp "$script_dir/pol.traineddata" /usr/share/tesseract/tessdata/
+# Setup zsh
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+	log_info "Setting up oh-my-zsh"
+	exec "$script_dir/zsh.sh" && \
+		log_success "zsh setup complete"
+fi
 
 log_info "Setup completed successfully"
 

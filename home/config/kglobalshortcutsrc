@@ -279,11 +279,17 @@ _launch=Alt+_
 [services][code.desktop]
 _launch=Meta+C
 
+[services][net.local.ocr-screen.sh.desktop]
+_launch=Meta+Shift+S
+
 [services][net.thunderbird.Thunderbird.desktop]
 _launch=Meta+M
 
 [services][org.kde.kdeconnect.sms.desktop]
 _launch=Meta+S
+
+[services][org.kde.spectacle.desktop]
+_launch=Print
 
 [yakuake]
 _k_friendly_name=Yakuake

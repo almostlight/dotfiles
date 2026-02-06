@@ -169,306 +169,324 @@ matches:
   #       $|$ & \\
   #        & 
   #     \end{vmatrix}
-  #
-  - trigger: ",align"
+  
+  - trigger: ":se"
+    replace: |
+      \section{$|$}
+
+  - trigger: ":sse"
+    replace: |
+      \subsection{$|$}
+
+  - trigger: ":ssse"
+    replace: |
+      \subsubsection{$|$}
+
+  - trigger: ":align"
     replace: |
       \begin{align}
         $|$
-      \end{align}
+#      \end{align}
   
-  - trigger: ",eq"
+  - trigger: ":eq"
     replace: |
       \begin{equation}
         $|$
-      \end{equation}
+#      \end{equation}
   
-  - trigger: ",cases"
+  - trigger: ":cases"
     replace: |
       \begin{cases}
         $|$ & \text{if } \\
          & \text{if }
-      \end{cases}
+#      \end{cases}
   
-  - trigger: ",item"
+  - trigger: ":it"
     replace: |
       \begin{itemize}
         \item $|$
-      \end{itemize}
+#      \end{itemize}
   
-  - trigger: ",enum"
+  - trigger: ":ii"
+    replace: |
+      \item $|$
+
+  - trigger: ":enum"
     replace: |
       \begin{enumerate}
         \item $|$
-      \end{enumerate}
+#      \end{enumerate}
+
+  - trigger: ":e"
+    replace: |
+      \end{$|$}
+
 
   # ========================================
   # FRACTIONS & ROOTS
   # ========================================
-  - trigger: ",frac"
+  - trigger: ":frac"
     replace: "\\frac{$|$}{}"
   
-  - trigger: ",dfrac"
+  - trigger: ":dfrac"
     replace: "\\dfrac{$|$}{}"
   
-  - trigger: ",sqrt"
+  - trigger: ":sqrt"
     replace: "\\sqrt{$|$}"
   
-  - trigger: ",nrt"
+  - trigger: ":nrt"
     replace: "\\sqrt[$|$]{}"
 
   # ========================================
   # SUMS, PRODUCTS, INTEGRALS
   # ========================================
-  - trigger: ",sum"
+  - trigger: ":sum"
     replace: "\\sum_{$|$}^{}"
   
-  - trigger: ",prod"
+  - trigger: ":prod"
     replace: "\\prod_{$|$}^{}"
   
-  - trigger: ",int"
+  - trigger: ":int"
     replace: "\\int_{$|$}^{}"
   
-  - trigger: ",iint"
+  - trigger: ":iint"
     replace: "\\iint_{$|$}"
   
-  - trigger: ",iiint"
+  - trigger: ":iiint"
     replace: "\\iiint_{$|$}"
   
-  - trigger: ",oint"
+  - trigger: ":oint"
     replace: "\\oint_{$|$}^{}"
   
-  - trigger: ",lim"
+  - trigger: ":lim"
     replace: "\\lim_{$|$}"
 
     # ========================================
   # CALCULUS & OPERATORS
   # ========================================
-  - trigger: ",pdv"
+  - trigger: ":*"
+    replace: "\\times "
+
+  - trigger: ":pdv"
     replace: "\\frac{\\partial $|$}{\\partial }"
   
-  - trigger: ",dv"
+  - trigger: ":dv"
     replace: "\\frac{d $|$}{d }"
   
-  - trigger: ",grad"
+  - trigger: ":grad"
     replace: "\\nabla"
   
-  - trigger: ",div"
+  - trigger: ":div"
     replace: "\\nabla \\cdot"
   
-  - trigger: ",curl"
+  - trigger: ":curl"
     replace: "\\nabla \\times"
 
   # ========================================
   # DELIMITERS
   # ========================================
-  - trigger: ",lr("
+  - trigger: ":lr("
     replace: "\\left( $|$ \\right)"
   
-  - trigger: ",lr["
+  - trigger: ":lr["
     replace: "\\left[ $|$ \\right]"
   
-  - trigger: ",lr{"
+  - trigger: ":lr{"
     replace: "\\left\\{ $|$ \\right\\}"
   
-  - trigger: ",lr|"
+  - trigger: ":lr|"
     replace: "\\left| $|$ \\right|"
   
-  - trigger: ",lra"
+  - trigger: ":lra"
     replace: "\\langle $|$ \\rangle"
 
   # ========================================
   # NORMS & BRACKETS
   # ========================================
-  - trigger: ",norm"
+  - trigger: ":norm"
     replace: "\\left\\lVert $|$ \\right\\rVert"
   
-  - trigger: ",abs"
+  - trigger: ":abs"
     replace: "\\left| $|$ \\right|"
   
-  - trigger: ",floor"
+  - trigger: ":floor"
     replace: "\\left\\lfloor $|$ \\right\\rfloor"
   
-  - trigger: ",ceil"
+  - trigger: ":ceil"
     replace: "\\left\\lceil $|$ \\right\\rceil"
 
   # ========================================
-  # ACCENTS & DECORATIONS
+  # ACCENTS & DECORATIONS   ,
   # ========================================
-  - trigger: ",hat"
+  - trigger: ":hat"
     replace: "\\hat{$|$}"
   
-  - trigger: ",bar"
+  - trigger: ":bar"
     replace: "\\bar{$|$}"
   
-  - trigger: ",tilde"
+  - trigger: ":tilde"
     replace: "\\tilde{$|$}"
   
-  - trigger: ",vec"
+  - trigger: ":vec"
     replace: "\\vec{$|$}"
   
-  - trigger: ",dot"
+  - trigger: ":dot"
     replace: "\\dot{$|$}"
   
-  - trigger: ",ddot"
+  - trigger: ":ddot"
     replace: "\\ddot{$|$}"
 
   # ========================================
-  # TEXT MODES
+    # TEXT MODES    ?
   # ========================================
-  - trigger: ",txt"
+  - trigger: "?t"
     replace: "\\text{$|$}"
   
-  - trigger: ",bf"
+  - trigger: "?b"
     replace: "\\mathbf{$|$}"
   
-  - trigger: ",it"
+  - trigger: "?i"
     replace: "\\mathit{$|$}"
   
-  - trigger: ",rm"
+  - trigger: "?r"
     replace: "\\mathrm{$|$}"
   
-  - trigger: ",cal"
+  - trigger: "?c"
     replace: "\\mathcal{$|$}"
   
-  - trigger: ",scr"
+  - trigger: "?s"
     replace: "\\mathscr{$|$}"
   
-  - trigger: ",frak"
+  - trigger: "?f"
     replace: "\\mathfrak{$|$}"
 
   # ========================================
-  # ARROWS
+  # ARROWS    :
   # ========================================
-  - trigger: ",->"
+  - trigger: ":->"
     replace: "\\to"
   
-  - trigger: ",=>"
+  - trigger: ":=>"
     replace: "\\implies"
   
-  - trigger: ",<=>"
+  - trigger: ":<=>"
     replace: "\\iff"
   
-  - trigger: ",<-"
+  - trigger: ":<-"
     replace: "\\leftarrow"
   
-  - trigger: ",<->"
+  - trigger: ":<->"
     replace: "\\leftrightarrow"
   
-  - trigger: ",lra"
+  - trigger: ":lra"
     replace: "\\longrightarrow"
 
   # ========================================
   # RELATIONS & OPERATORS
   # ========================================
-  - trigger: ",<="
+  - trigger: ":<="
     replace: "\\leq"
   
-  - trigger: ",>="
+  - trigger: ":>="
     replace: "\\geq"
   
-  - trigger: ",!="
+  - trigger: ":!="
     replace: "\\neq"
   
-  - trigger: ",~="
+  - trigger: ":~="
     replace: "\\approx"
   
-  - trigger: ",=="
+  - trigger: ":=="
     replace: "\\equiv"
   
-  - trigger: ",:="
+  - trigger: "::="
     replace: "\\coloneqq"
   
-  - trigger: ",in"
-    replace: "\\in"
-  
-  - trigger: ",notin"
-    replace: "\\notin"
-  
-  - trigger: ",subset"
+  - trigger: ":subset"
     replace: "\\subset"
   
-  - trigger: ",subseteq"
+  - trigger: ":subseteq"
     replace: "\\subseteq"
   
-  - trigger: ",cup"
+  - trigger: ":cup"
     replace: "\\cup"
   
-  - trigger: ",cap"
+  - trigger: ":cap"
     replace: "\\cap"
   
-  - trigger: ",times"
+  - trigger: ":times"
     replace: "\\times"
   
-  - trigger: ",cdot"
+  - trigger: ":cdot"
     replace: "\\cdot"
   
-  - trigger: ",circ"
+  - trigger: ":circ"
     replace: "\\circ"
   
-  - trigger: ",oplus"
+  - trigger: ":oplus"
     replace: "\\oplus"
   
-  - trigger: ",otimes"
+  - trigger: ":otimes"
     replace: "\\otimes"
   
-  - trigger: ",pm"
+  - trigger: ":pm"
     replace: "\\pm"
   
-  - trigger: ",infty"
+  - trigger: ":inf"
     replace: "\\infty"
   
-  - trigger: ",partial"
+  - trigger: ":partial"
     replace: "\\partial"
   
-  - trigger: ",forall"
+  - trigger: ":forall"
     replace: "\\forall"
   
-  - trigger: ",exists"
+  - trigger: ":exists"
     replace: "\\exists"
   
-  - trigger: ",empty"
+  - trigger: ":empty"
     replace: "\\emptyset"
 
   # ========================================
   # SPECIAL FUNCTIONS
   # ========================================
-  - trigger: ",sin"
+  - trigger: ":sin"
     replace: "\\sin"
   
-  - trigger: ",cos"
+  - trigger: ":cos"
     replace: "\\cos"
   
-  - trigger: ",tan"
+  - trigger: ":tan"
     replace: "\\tan"
   
-  - trigger: ",log"
+  - trigger: ":log"
     replace: "\\log"
   
-  - trigger: ",ln"
+  - trigger: ":ln"
     replace: "\\ln"
   
-  - trigger: ",exp"
+  - trigger: ":exp"
     replace: "\\exp"
   
-  - trigger: ",det"
+  - trigger: ":det"
     replace: "\\det"
   
-  - trigger: ",dim"
+  - trigger: ":dim"
     replace: "\\dim"
   
-  - trigger: ",ker"
+  - trigger: ":ker"
     replace: "\\ker"
   
-  - trigger: ",im"
+  - trigger: ":im"
     replace: "\\text{im}"
 
   # ========================================
   # QUICK INLINE MATH
   # ========================================
-  - trigger: ",$$"
+  - trigger: ":$$"
     replace: "$$$|$$$"
   
-  - trigger: ",dm"
+  - trigger: ":dm"
     replace: "\\[ $|$ \\]"
 
   
