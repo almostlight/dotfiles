@@ -103,6 +103,12 @@ chmod +x "$script_dir"/linked/*
 if [[ -d "$HOME/.config/sway/scripts" ]]; then
     chmod +x "$HOME/.config/sway/scripts"/*
 fi
+# Setup zsh
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+	log_info "Setting up oh-my-zsh"
+	bash "$script_dir/zsh.sh" && \
+		log_success "zsh setup complete"
+fi
 # Link files
 link_directory_contents "$config_source" "$HOME/.config/"
 link_directory_contents "$rc_source" "$HOME"
@@ -115,12 +121,6 @@ sudo tailscale set --operator=$USER && \
 sudo xhost +SI:localuser:root
 sudo systemctl enable --now systemd-timesyncd.service
 sudo cp "$script_dir/pol.traineddata" /usr/share/tesseract/tessdata/
-# Setup zsh
-if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-	log_info "Setting up oh-my-zsh"
-	exec "$script_dir/zsh.sh" && \
-		log_success "zsh setup complete"
-fi
 
 log_info "Setup completed successfully"
 

@@ -13,7 +13,7 @@ This repository stores configuration files and scripts used to set up and manage
 #### 1. Automatic
 Run: 
 ```bash
-curl -SL https://raw.githubusercontent.com/almostlight/dotfiles/main/scripts/setup.sh | bash
+curl -sSL https://raw.githubusercontent.com/almostlight/dotfiles/main/scripts/setup.sh | bash
 ```
 It will install necessary packages, clone the repository, and deploy the config.
 #### 2. Manual
