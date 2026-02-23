@@ -19,6 +19,8 @@
 toggle_key: RIGHT_CTRL
 # You can also disable the toggle key completely with
 # toggle_key: OFF
+search_shortcut: OFF
+search_trigger: OFF
 
 # --- Injection Backend
 
@@ -27,7 +29,7 @@ toggle_key: RIGHT_CTRL
 # By default, espanso uses the "Auto" backend which should work well in most cases,
 # but you may want to try the "Clipboard" or "Inject" backend in case of issues.
 # backend: Clipboard
-# backend: Inject
+backend: Inject
 
 
 # --- Auto-restart

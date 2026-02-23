@@ -138,7 +138,7 @@ TerminalApplication=alacritty
 TerminalService=Alacritty.desktop
 
 [Icons]
-Theme=Papirus-Dark
+Theme=Papirus
 
 [KDE]
 LookAndFeelPackage=org.fedoraproject.fedoradark.desktop

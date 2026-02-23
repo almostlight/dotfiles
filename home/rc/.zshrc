@@ -22,7 +22,8 @@ fi
 if [[ $XDG_SESSION_TYPE =~ 'wayland' ]]; then
     alias logout="pkill -SIGTERM '.*wayland.*'"
     alias gpick='grim -g "$(slurp -p)" -t ppm - | magick - -format "%[pixel:p{0,0}]" txt:-'
-    alias xclip='wl-copy'
+    alias wlclip='wl-copy'
+	alias wlprop="echo 'select window' && sleep 3 && kdotool getactivewindow | xargs kdotool getwindowclassname"
 fi
 
 export EDITOR=nvim
@@ -46,6 +47,10 @@ supergfxctl() {
     command supergfxctl -gs "$@"
 }
 
+visudo() {
+	command sudo EDITOR=$EDITOR visudo
+}
+
 alias sudo!='fc -ln -1 | xargs sudo'
 alias l='ls'
 
@@ -53,6 +58,7 @@ if [[ "$EDITOR" = "nvim" ]] || [[ "$VISUAL" = "nvim" ]]; then
     alias vim="nvim"
 fi
 
+alias z='source ~/.zshrc'
 alias v='vim'
 alias vl='vim -c "'\''0"'
 alias ff='fastfetch'
@@ -70,7 +76,7 @@ alias neofetch='fastfetch'
 alias bt='bluetui'
 alias time_nvim='nvim --startuptime /dev/stdout +qall && echo && time nvim +q'
 alias sizeof='du -cksh'
-alias git-profile='xdg-open https://github.com/"$(git config user.name)"'
+alias git-profile='xdg-open https://github.com/"$(git config user.name)" 2>/dev/null'
 alias git-autopush='git add --all && git commit -am "saving progress" && git push && git status'
 alias wol='sudo ether-wake'
 
@@ -81,7 +87,7 @@ kexec-reboot() {
     && sudo systemctl kexec
 }
 
-export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH:/usr/local/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin:/usr/local/STMicroelectronics/STMCUFinder
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"

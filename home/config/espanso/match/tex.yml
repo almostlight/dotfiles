@@ -337,28 +337,31 @@ matches:
     replace: "\\ddot{$|$}"
 
   # ========================================
-    # TEXT MODES    ?
+    # TEXT MODES    `
   # ========================================
-  - trigger: "?t"
+  - trigger: "`t"
     replace: "\\text{$|$}"
   
-  - trigger: "?b"
+  - trigger: "`b"
     replace: "\\mathbf{$|$}"
   
-  - trigger: "?i"
+  - trigger: "`i"
     replace: "\\mathit{$|$}"
   
-  - trigger: "?r"
+  - trigger: "`r"
     replace: "\\mathrm{$|$}"
   
-  - trigger: "?c"
+  - trigger: "`c"
     replace: "\\mathcal{$|$}"
   
-  - trigger: "?s"
+  - trigger: "`s"
     replace: "\\mathscr{$|$}"
   
-  - trigger: "?f"
+  - trigger: "`f"
     replace: "\\mathfrak{$|$}"
+
+  - trigger: "`u"
+    replace: "\\underline{$|$}"
 
   # ========================================
   # ARROWS    :
