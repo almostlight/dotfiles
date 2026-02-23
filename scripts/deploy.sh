@@ -119,6 +119,8 @@ link_directory_contents "$config_source" "$HOME/.config/"
 link_directory_contents "$rc_source" "$HOME"
 link_directory_contents "$script_dir/linked" "$HOME/.local/bin/"
 # System configuration
+systemctl --user enable spotifyd.service
+systemctl --user enable espanso.service
 log_info "Setting up Tailscale"
 sudo systemctl enable --now tailscaled.service
 sudo tailscale set --operator=$USER && \
@@ -127,5 +129,7 @@ sudo xhost +SI:localuser:root
 sudo systemctl enable --now systemd-timesyncd.service
 sudo cp "$script_dir/pol.traineddata" /usr/share/tesseract/tessdata/
 
+sudo systemctl daemon-reload
+systemctl --user daemon-reload
 log_info "Setup completed successfully"
 
