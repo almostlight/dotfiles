@@ -39,7 +39,7 @@ mkdir -p "$git_dir"
 echo "$target_path"
 if [[ -d "$target_path/.git" ]]; then 
 	echo "Dotfiles repository target path exists! Pulling repository..."
-	cd $target_path && git pull
+	cd $target_path && git pull --rebase
 else
 	echo "Cloning dotfiles repository..."
 	rm -rf "$target_path"
