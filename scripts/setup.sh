@@ -35,10 +35,6 @@ rm -rf "$HOME/.cache/*"
 install_packages
 clear
 
-if [[ -e "$target_path" ]]; then
-	rm -rf "$target_path"
-fi
-
 mkdir -p "$git_dir"
 echo "$target_path"
 if [[ -d "$target_path/.git" ]]; then 
@@ -46,6 +42,7 @@ if [[ -d "$target_path/.git" ]]; then
 	cd $target_path && git pull
 else
 	echo "Cloning dotfiles repository..."
+	rm -rf "$target_path"
 	git clone "https://github.com/almostlight/dotfiles.git" "$target_path" --depth 1
 fi
 
