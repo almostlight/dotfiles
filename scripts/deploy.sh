@@ -8,10 +8,10 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-log_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
-log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
-log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+log_info() { echo -e "${BLUE}[I]${NC} $1"; }
+log_success() { echo -e "${GREEN}[S]${NC} $1"; }
+log_warn() { echo -e "${YELLOW}[W]${NC} $1"; }
+log_error() { echo -e "${RED}[E]${NC} $1"; }
 
 # Git config
 git config --global alias.co checkout
@@ -112,11 +112,18 @@ if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
 	bash "$script_dir/zsh.sh" && \
 		log_success "zsh setup complete"
 fi
+# Setup Spotifyd
+if [[ ! "$(which spotifyd 2>/dev/null)" ]]; then
+	bash "$script_dir/spotifyd.sh" && \
+		log_success "Spotifyd installed"
+fi
 # Link files
 link_directory_contents "$config_source" "$HOME/.config/"
 link_directory_contents "$rc_source" "$HOME"
 link_directory_contents "$script_dir/linked" "$HOME/.local/bin/"
 # System configuration
+systemctl --user enable spotifyd.service
+systemctl --user enable espanso.service
 log_info "Setting up Tailscale"
 sudo systemctl enable --now tailscaled.service
 sudo tailscale set --operator=$USER && \
@@ -125,5 +132,7 @@ sudo xhost +SI:localuser:root
 sudo systemctl enable --now systemd-timesyncd.service
 sudo cp "$script_dir/pol.traineddata" /usr/share/tesseract/tessdata/
 
+sudo systemctl daemon-reload
+systemctl --user daemon-reload
 log_info "Setup completed successfully"
 
