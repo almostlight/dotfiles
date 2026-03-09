@@ -2,7 +2,7 @@
 
 pkg_list="git curl tailscale sway waybar wmenu wl-clipboard neovim ranger unzip openssh alacritty base-devel fastfetch trash-cli fira-code-fonts tesseract" 
 git_dir="$HOME/github"
-target_path="$git_dir/dotfiles_by_almostlight"
+target_path="$git_dir/.dotfiles_by_almostlight"
 
 # Install packages based on distro
 install_packages() {
