@@ -27,6 +27,7 @@ log_info "Git aliases configured"
 script_dir=$(dirname "$(realpath -s "$0")")
 config_source=$(realpath -s "$script_dir/../home/config")
 rc_source=$(realpath -s "$script_dir/../home/rc")
+today=$(date -I)
 
 if [[ ! -d "$config_source" ]]; then
     log_error "Error: Configuration source directory not found: $config_source" >&2
@@ -45,16 +46,18 @@ link_item() {
     local itemname=$(basename "$source_item")
     # Backup existing file/directory
     if [[ -e "$target" || -L "$target" ]]; then
-        # Create backup path that includes the item name
-        local relative_path="${target#$HOME/}"
-        local backup_path="$HOME/.backup/$(date +%s)/${relative_path}"
+			if [[ -e "$(readlink $target)" ]]; then
+        	# Create backup path that includes the item name
+        	local relative_path="${target#$HOME/}"
+        	local backup_path="$HOME/.backup/$today/${relative_path}"
+        	
+        	# Create parent directory for backup
+        	mkdir -p "$(dirname "$backup_path")"
+        	
+        	log_info "Backing up existing $itemname to $backup_path"
         
-        # Create parent directory for backup
-        mkdir -p "$(dirname "$backup_path")"
-        
-        log_info "Backing up existing $itemname to $backup_path"
-        
-        cp -Lr "$target" "$backup_path" #2>/dev/null
+			cp -Lr "$target" "$backup_path" #2>/dev/null
+		fi
     fi
     # Remove existing item before creating symlink
     rm -rf "$target"

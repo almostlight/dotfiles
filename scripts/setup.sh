@@ -2,7 +2,7 @@
 
 pkg_list="git curl tailscale sway waybar wmenu wl-clipboard neovim ranger unzip openssh alacritty base-devel fastfetch trash-cli fira-code-fonts tesseract" 
 git_dir="$HOME/github"
-target_path="$git_dir/almostlight/dotfiles"
+target_path="$git_dir/dotfiles_by_almostlight"
 
 # Install packages based on distro
 install_packages() {
@@ -17,7 +17,7 @@ install_packages() {
 		sudo dnf install \
 			"https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
 			"https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-		sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+		yes | sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 		yes | sudo dnf install espanso-wayland
 		sudo setcap "cap_dac_override+p" $(which espanso)
 		espanso service register
@@ -31,7 +31,7 @@ install_packages() {
     fi
 }
 
-
+rm -rf "$HOME/.cache/*"
 install_packages
 clear
 
@@ -40,7 +40,14 @@ if [[ -e "$target_path" ]]; then
 fi
 
 mkdir -p "$git_dir"
-echo "Cloning dotfiles repository..."
-git clone "https://github.com/almostlight/dotfiles.git" "$target_path" --depth 1
+echo "$target_path"
+if [[ -d "$target_path/.git" ]]; then 
+	echo "Dotfiles repository target path exists! Pulling repository..."
+	cd $target_path && git pull
+else
+	echo "Cloning dotfiles repository..."
+	git clone "https://github.com/almostlight/dotfiles.git" "$target_path" --depth 1
+fi
+
 exec "$target_path/scripts/deploy.sh"
 

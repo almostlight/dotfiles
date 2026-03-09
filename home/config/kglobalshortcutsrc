@@ -304,6 +304,8 @@ _launch=Meta+M
 _launch=Meta+S
 
 [services][org.kde.spectacle.desktop]
+CurrentMonitorScreenShot=
+OpenWithoutScreenshot=
 _launch=Print
 
 [yakuake]

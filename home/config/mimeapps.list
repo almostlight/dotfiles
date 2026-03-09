@@ -12,3 +12,4 @@ x-scheme-handler/http=com.brave.Browser.desktop;
 x-scheme-handler/https=com.brave.Browser.desktop;
 x-scheme-handler/mailto=net.thunderbird.Thunderbird.desktop;
 x-scheme-handler/adskidmgr=adskidmgr-opener.desktop
+x-scheme-handler/stabilitymatrix=stabilitymatrix.desktop
