@@ -27,6 +27,8 @@ install_packages() {
 		# Install VS Code
 		sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
 		echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+		yes | sudo dnf copr enable jstaf/onedriver
+		yes | sudo dnf install onedriver
 		yes | dnf check-update && sudo dnf install code
     fi
 }
@@ -45,6 +47,8 @@ else
 	rm -rf "$target_path"
 	git clone "https://github.com/almostlight/dotfiles.git" "$target_path" --depth 1
 fi
+
+git submodule update --init --recursive
 
 exec "$target_path/scripts/deploy.sh"
 
