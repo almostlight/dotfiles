@@ -1,6 +1,6 @@
-[submodule "gruvbox-plus-kde"]
-	path = gruvbox-plus-kde
+[submodule "themes/gruvbox-plus-kde"]
+	path = themes/gruvbox-plus-kde
 	url = https://github.com/SylEleuth/gruvbox-plus-kde.git
-[submodule "gruvbox-plus-icon-pack"]
-	path = gruvbox-plus-icon-pack
+[submodule "themes/gruvbox-plus-icon-pack"]
+	path = themes/gruvbox-plus-icon-pack
 	url = https://github.com/SylEleuth/gruvbox-plus-icon-pack.git

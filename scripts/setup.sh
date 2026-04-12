@@ -35,7 +35,6 @@ install_packages() {
 
 rm -rf "$HOME/.cache/*"
 install_packages
-clear
 
 mkdir -p "$git_dir"
 echo "$target_path"
