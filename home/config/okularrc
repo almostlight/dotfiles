@@ -1,0 +1,14 @@
+[Desktop Entry]
+FullScreen=false
+shouldShowMenuBarComingFromFullScreen=false
+shouldShowToolBarComingFromFullScreen=false
+
+[General]
+LockSidebar=true
+ShowSidebar=true
+
+[MainWindow][Toolbar annotationToolBar]
+IconSize=14
+
+[Recent Files]
+
