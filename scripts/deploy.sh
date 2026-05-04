@@ -24,9 +24,11 @@ git config --global alias.last 'log -1 HEAD'
 git config --global alias.visual '!gitk'
 log_info "Git aliases configured"
 
+repo_root="$(dirname "$(realpath -s "$0")")/.."
 script_dir=$(dirname "$(realpath -s "$0")")
-config_source=$(realpath -s "$script_dir/../home/config")
-rc_source=$(realpath -s "$script_dir/../home/rc")
+theme_dir="$repo_root/themes"
+config_source="$repo_root/home/config"
+rc_source="$repo_root/home/rc"
 today=$(date -I)
 
 if [[ ! -d "$config_source" ]]; then
@@ -117,10 +119,16 @@ if [[ ! "$(which spotifyd 2>/dev/null)" ]]; then
 	bash "$script_dir/spotifyd.sh" && \
 		log_success "Spotifyd installed"
 fi
-# Link files
+# Link configs
 link_directory_contents "$config_source" "$HOME/.config/"
 link_directory_contents "$rc_source" "$HOME"
+# Link scripts
 link_directory_contents "$script_dir/linked" "$HOME/.local/bin/"
+# Link themes
+link_directory_contents "$theme_dir/gruvbox-plus-kde/plasma/desktoptheme/" "$HOME/.local/share/plasma/desktoptheme/"
+link_directory_contents "$theme_dir/gruvbox-plus-kde/plasma/look-and-feel/" "$HOME/.local/share/plasma/look-and-feel/"
+link_directory_contents "$theme_dir/gruvbox-plus-kde/color-scheme/" "$HOME/.local/share/color-schemes/"
+link_directory_contents "$theme_dir/gruvbox-plus-icon-pack/" "$HOME/.local/share/icons/"
 # System configuration
 systemctl --user enable spotifyd.service
 systemctl --user enable espanso.service
@@ -135,4 +143,6 @@ sudo cp "$script_dir/pol.traineddata" /usr/share/tesseract/tessdata/
 sudo systemctl daemon-reload
 systemctl --user daemon-reload
 log_info "Setup completed successfully"
+# logout to apply changes
+killall startplasma-wayland
 
