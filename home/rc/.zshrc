@@ -1,5 +1,4 @@
-
-plugins=(zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting)
+export LANG=en_US.UTF-8
 
 #!/usr/bin/env zsh
 ## Run commands if interactive mode
@@ -9,9 +8,11 @@ if [[ -o interactive ]]; then
 fi
 
 ## Environment variables
-if [[ $(uname -r) =~ '[wW][sS][lL]' ]]; then
-    export BROWSER=wslview
+if [[ $(which winget 2>/dev/null) ]]; then 
+    export DISTRO=""
+elif [[ $(uname -r) =~ '[wW][sS][lL]' ]]; then
     export DISTRO="wsl"
+    export BROWSER=wslview
     alias explorer="explorer.exe"
     alias wsl="wsl.exe"
     alias clip="clip.exe"
@@ -26,14 +27,17 @@ if [[ $XDG_SESSION_TYPE =~ 'wayland' ]]; then
 	alias wlprop="echo 'select window' && sleep 3 && kdotool getactivewindow | xargs kdotool getwindowclassname"
 fi
 
-export EDITOR=nvim
-# export EDITOR=vim
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+
 ## Nvim version to use (name of config directory in ~/.config/)
 export NVIM_APPNAME="lightvim"
 #export NVIM_APPNAME=nvim
 
 ## Disable zsh default greeting (fish's set fish_greeting equivalent)
-# In zsh, you can disable the greeting by not setting it or using:
 unsetopt login
 
 if [[ -n "$WAYLAND_DISPLAY" ]]; then
@@ -78,6 +82,7 @@ alias time_nvim='nvim --startuptime /dev/stdout +qall && echo && time nvim +q'
 alias sizeof='du -cksh'
 alias git-profile='xdg-open https://github.com/"$(git config user.name)" 2>/dev/null'
 alias git-autopush='git add --all && git commit -am "saving progress" && git push && git status'
+alias yesupgrade="yes|sudo dnf update && yes|sudo dnf upgrade|lolcat"
 alias wol='sudo ether-wake'
 
 kexec-reboot() {
@@ -98,26 +103,20 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
+zstyle ':omz:update' mode auto      # update automatically without asking
 # zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
+zstyle ':omz:update' frequency 7
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -158,35 +157,8 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+
+plugins=(git zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch $(uname -m)"
-
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"

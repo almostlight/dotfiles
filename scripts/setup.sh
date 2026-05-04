@@ -2,7 +2,7 @@
 
 pkg_list="git curl tailscale sway waybar wmenu wl-clipboard neovim ranger unzip openssh alacritty base-devel fastfetch trash-cli fira-code-fonts tesseract" 
 git_dir="$HOME/github"
-target_path="$git_dir/.dotfiles_by_almostlight"
+target_path="$git_dir/dotfiles_by_almostlight"
 
 # Install packages based on distro
 install_packages() {
@@ -27,14 +27,14 @@ install_packages() {
 		# Install VS Code
 		sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
 		echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
-		yes | sudo dnf copr enable jstaf/onedriver
-		yes | sudo dnf install onedriver
+		yes | sudo dnf install onedrive
 		yes | dnf check-update && sudo dnf install code
     fi
 }
 
 rm -rf "$HOME/.cache/*"
 install_packages
+clear
 
 mkdir -p "$git_dir"
 echo "$target_path"
@@ -44,7 +44,7 @@ if [[ -d "$target_path/.git" ]]; then
 else
 	echo "Cloning dotfiles repository..."
 	rm -rf "$target_path"
-	git clone "https://github.com/almostlight/dotfiles.git" "$target_path" --depth 1
+	git clone git@github.com:almostlight/dotfiles.git "$target_path" --depth 1
 fi
 
 git submodule update --init --recursive

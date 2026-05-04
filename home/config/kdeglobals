@@ -112,10 +112,16 @@ ForegroundPositive=104,157,106
 ForegroundVisited=189,174,147
 
 [General]
-ColorScheme=GruvboxPlusDark
-ColorSchemeHash=2c3f86428c11011a7c64ee1e7f47c274d498ff10
+ColorSchemeHash=a32582b5bba2a6dd554252925859ac818c78cd7b
 TerminalApplication=alacritty
 TerminalService=Alacritty.desktop
+XftHintStyle=hintslight
+XftSubPixel=none
+fixed=FiraCode Nerd Font,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+font=FiraCode Nerd Font,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=FiraCode Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+smallestReadableFont=FiraCode Nerd Font,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+toolBarFont=FiraCode Nerd Font,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
 [Icons]
 Theme=Gruvbox-Plus-Dark
@@ -143,6 +149,10 @@ Sort reversed=false
 Speedbar Width=158
 View Style=DetailTree
 
+[KScreen]
+ScreenScaleFactors=eDP-1=1;
+XwaylandClientsScale=true
+
 [KShortcutsDialog Settings]
 Dialog Size=600,480
 
@@ -152,6 +162,7 @@ Theme=freedesktop
 [WM]
 activeBackground=60,56,54
 activeBlend=235,219,178
+activeFont=FiraCode Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 activeForeground=235,219,178
 inactiveBackground=124,111,100
 inactiveBlend=60,56,54

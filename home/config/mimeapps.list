@@ -1,4 +1,6 @@
 [Added Associations]
+application/x-ipynb+json=code.desktop;
+application/zip=matlab.desktop;
 text/html=com.brave.Browser.desktop;brave-browser.desktop;org.mozilla.firefox.desktop;org.qutebrowser.qutebrowser.desktop;org.kde.kwrite.desktop;nvim.desktop;org.zotero.Zotero.desktop;okularApplication_txt.desktop;libreoffice-writer.desktop;
 x-scheme-handler/geo=google-maps-geo-handler.desktop;
 x-scheme-handler/http=com.brave.Browser.desktop;brave-browser.desktop;
@@ -6,10 +8,15 @@ x-scheme-handler/https=com.brave.Browser.desktop;brave-browser.desktop;
 x-scheme-handler/mailto=net.thunderbird.Thunderbird.desktop;
 
 [Default Applications]
+application/x-ipynb+json=code.desktop;
+application/zip=matlab.desktop;
 text/html=com.brave.Browser.desktop;
+x-scheme-handler/adskidmgr=adskidmgr-opener.desktop
 x-scheme-handler/geo=google-maps-geo-handler.desktop;
 x-scheme-handler/http=com.brave.Browser.desktop;
 x-scheme-handler/https=com.brave.Browser.desktop;
 x-scheme-handler/mailto=net.thunderbird.Thunderbird.desktop;
-x-scheme-handler/adskidmgr=adskidmgr-opener.desktop
 x-scheme-handler/stabilitymatrix=stabilitymatrix.desktop
+
+[Removed Associations]
+application/zip=org.kde.ark.desktop;org.prismlauncher.PrismLauncher.desktop;
