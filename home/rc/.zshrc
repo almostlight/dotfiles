@@ -87,7 +87,10 @@ alias sudo!='fc -ln -1 | xargs sudo'
 
 ## Aliases — git
 alias git-profile='xdg-open https://github.com/"$(git config user.name)" 2>/dev/null'
-alias git-autopush='git add --all && git commit -am "saving progress" && git push && git status'
+alias git-autopush='f() { git add --all &&\
+	git commit -am "${1:-saving progress}" &&\
+	git push &&\
+	git status; }; f'
 
 ## Aliases — system
 alias update-grub='sudo grub2-mkconfig -o /boot/grub2/grub.cfg'

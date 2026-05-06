@@ -69,13 +69,13 @@ set timeoutlen=300
 filetype plugin indent on
 
 " Keymaps
-nnoremap <Esc>   <cmd>nohlsearch<CR>
-nnoremap <left>  <cmd>echo "Use h to move!!"<CR>
-nnoremap <right> <cmd>echo "Use l to move!!"<CR>
-nnoremap <up>    <cmd>echo "Use k to move!!"<CR>
-nnoremap <down>  <cmd>echo "Use j to move!!"<CR>
-nnoremap <C-h>   <C-w><C-h>
-nnoremap <C-l>   <C-w><C-l>
-nnoremap <C-j>   <C-w><C-j>
-nnoremap <C-k>   <C-w><C-k>
+nnoremap <Esc>		:nohlsearch<CR>
+nnoremap <left>		:echo "Use h to move!!"<CR>
+nnoremap <right>	:echo "Use l to move!!"<CR>
+nnoremap <up>		:echo "Use k to move!!"<CR>
+nnoremap <down>		:echo "Use j to move!!"<CR>
+nnoremap <C-h>		<C-w><C-h>
+nnoremap <C-l>		<C-w><C-l>
+nnoremap <C-j>		<C-w><C-j>
+nnoremap <C-k>		<C-w><C-k>
 
