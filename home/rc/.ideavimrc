@@ -13,12 +13,15 @@ set scrolloff=5
 
 " Do incremental searching.
 set incsearch
+set highlightedyank
+set ideajoin
+set ideastatusicon=gray
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
 " --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
-
+Plug 'tpope/vim-surround'
 " Highlight copied text
 Plug 'machakann/vim-highlightedyank'
 " Commentary plugin
@@ -34,3 +37,4 @@ Plug 'tpope/vim-commentary'
 
 "" Map \b to toggle the breakpoint on the current line
 "map \b <Action>(ToggleLineBreakpoint)
+
