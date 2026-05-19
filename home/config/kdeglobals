@@ -115,6 +115,7 @@ ForegroundVisited=189,174,147
 ColorSchemeHash=a32582b5bba2a6dd554252925859ac818c78cd7b
 TerminalApplication=alacritty
 TerminalService=Alacritty.desktop
+UseSystemBell=true
 XftHintStyle=hintslight
 XftSubPixel=none
 fixed=FiraCode Nerd Font,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1

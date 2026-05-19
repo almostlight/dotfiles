@@ -16,7 +16,7 @@ let g:vimtex_compiler_method = 'latexrun'
 set number
 set relativenumber
 set cursorline
-set noshowmode
+" set noshowmode
 set signcolumn=yes
 set scrolloff=10
 set splitright

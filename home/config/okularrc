@@ -5,10 +5,29 @@ shouldShowToolBarComingFromFullScreen=false
 
 [General]
 LockSidebar=true
-ShowSidebar=true
+ShowSidebar=false
 
 [MainWindow][Toolbar annotationToolBar]
 IconSize=14
 
 [Recent Files]
-
+File1[$e]=$HOME/Nextcloud/AGH/SkyLink/CRC2026/RA02.pdf
+File10[$e]=$HOME/Nextcloud/AGH/S4/Automatyka 2/lab_8_dostrajanie/Dostrajanie_PID_25.pdf
+File2[$e]=$HOME/Nextcloud/AGH/SkyLink/CRC2026/power supply.pdf
+File3[$e]=$HOME/Nextcloud/AGH/SkyLink/CRC2026/5V power supply.pdf
+File4[$e]=$HOME/Nextcloud/AGH/SkyLink/CRC2026/tlv757p.pdf
+File5[$e]=$HOME/Nextcloud/AGH/SkyLink/CRC2026/tps25947.pdf
+File6[$e]=$HOME/Nextcloud/AGH/SkyLink/CRC2026/tps564247.pdf
+File7[$e]=$HOME/Nextcloud/AGH/SkyLink/CRC2026/um2502-stlinkv3mods-and-stlinkv3mini-debuggerprogrammer-tiny-probes-for-stm32-microcontrollers-stmicroelectronics.pdf
+File8[$e]=$HOME/Nextcloud/AGH/SkyLink/CRC2026/stlink-v3mini.pdf
+File9[$e]=$HOME/Nextcloud/AGH/SkyLink/CRC2026/Pirx/CRC_2026_Avionics_Pirx.pdf
+Name1[$e]=RA02.pdf
+Name10[$e]=Dostrajanie_PID_25.pdf
+Name2[$e]=power supply.pdf
+Name3[$e]=5V power supply.pdf
+Name4[$e]=tlv757p.pdf
+Name5[$e]=tps25947.pdf
+Name6[$e]=tps564247.pdf
+Name7[$e]=um2502-stlinkv3mods-and-stlinkv3mini-debuggerprogrammer-tiny-probes-for-stm32-microcontrollers-stmicroelectronics.pdf
+Name8[$e]=stlink-v3mini.pdf
+Name9[$e]=CRC_2026_Avionics_Pirx.pdf
