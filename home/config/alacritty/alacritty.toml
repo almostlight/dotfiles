@@ -5,5 +5,4 @@ import = [
 
 [font]
 # normal = { family = "FiraCode Nerd Font", style = "Regular" }
-size = 9.5
-
+size = 8.5
