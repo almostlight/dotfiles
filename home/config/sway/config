@@ -58,11 +58,7 @@ set $email thunderbird
 
 set $browser brave
 # Your preferred application launcher
-# set $menu wmenu-run -i -p "Run:" -f "FiraCode Nerd Font 12" \
-#     -N "$bg-inactive" -n "$text" \
-#     -M "$bg" -m "$text" \
-#     -S "$accent" -s "$text"
-set $menu wofi -show run
+set $menu wofi --show drun
 
 set $screenshot grim ~/Images/screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
 set $screenshot grim ~/Images/screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png

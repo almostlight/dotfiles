@@ -1,26 +1,50 @@
 * {
-  border: none;
+    border: none;
+    border-radius: 0;
+    font-family: "Dejavu Sans Mono for Powerline";
+    font-size: 14px;
+    min-height: 0;
 }
 
 window {
-  font-size: 24px;
-  font-family: "Ubuntu";
-  background-color: #282828;
-  color: #949494;
-  border-bottom: 0px solid #000000;
-}
-
-#entry:selected {
-  background-color: #ff8700;
-}
-
-#text:selected {
-  background-color: transparent;
-  color: grey;
+    background-color: #282828;
+    color: #949494;
 }
 
 #input {
-  background-color: #282828;
-  color: white;
+    background-color: #4a4a4a;
+    color: white;
+    margin: 8px;
+    padding: 8px;
+    border: none;
+}
+
+#input:focus {
+    box-shadow: none;
+}
+
+#scroll {
+    background-color: #282828;
+    margin: 0px;
+}
+
+#entry {
+    background-color: #4a4a4a;
+    color: white;
+    margin: 2px 8px;
+    padding: 6px;
+}
+
+#entry:selected {
+    background-color: #ff8700;
+    color: #282828;
+}
+
+#entry:focus {
+    outline: none;
+}
+
+#text {
+    margin: 0px;
 }
 
