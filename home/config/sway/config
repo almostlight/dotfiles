@@ -6,10 +6,16 @@
 
 set $conf "~/.config/sway"
 exec export PATH="/var/lib/flatpak/exports/bin:$PATH"
+exec export QT_QPA_PLATFORMTHEME="qt6ct"
+
+# set tiling settings 
+for_window [app_id="blueman-manager"] floating enable
 
 xwayland enable
 #exec --no-startup-id Xwayland -dpi 210
 
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
 # Colors
 set $bg				#949494
 set $bg-inactive	#323232
@@ -22,13 +28,16 @@ set $statusline		#e0e0e0
 set $accent			#FF8700
 
 # hide mouse after 5 secs
-seat seat0 hide_cursor 5000
-
+# seat seat0 hide_cursor 5000
 exec_always --no-startup-id ~/.config/sway/scripts/battery-notify.sh
-exec_always --no-startup-id wl-paste --watch cliphist store
 exec_always --no-startup-id nm-applet
+exec_always --no-startup-id blueman-applet
 exec_always --no-startup-id dunst ~/.config/dunst/dunstrc & notify-send "Dunst started"
 exec_always --no-startup-id notify-send $(asusctl profile -p | grep -i "active")
+exec_always --no-startup-id wl-paste -n --watch clipman store --no-persist
+# Primary clipboard is modified by text selections.
+# wl-paste -p -n -t text --watch clipman store --histpath="~/.local/share/clipman-primary.json"
+exec_always --no-startup-id  clipman restore
 
 client.focused          $bg           $bg          $text          $bg $bg
 client.unfocused        $bg-inactive  $bg-inactive $text-inactive $bar $bar
@@ -36,8 +45,6 @@ client.focused_inactive $bg-inactive  $bg-inactive $text-inactive $bar $bar
 client.urgent           $bg-urgent    $bg-urgent   $text          $bar $bar
 ### Variables
 #
-# Logo key. Use Mod1 for Alt.
-set $mod Mod4
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -55,10 +62,7 @@ set $browser brave
 #     -N "$bg-inactive" -n "$text" \
 #     -M "$bg" -m "$text" \
 #     -S "$accent" -s "$text"
-set $menu rofi -show drun -i -p "Run:" -font "FiraCode Nerd Font 12" \
-    -normal-background "$bg-inactive" -normal-foreground "$text" \
-    -selected-background "$accent" -selected-foreground "$text" \
-    -matching-background "$bg" -matching-foreground "$text"
+set $menu wofi -show run
 
 set $screenshot grim ~/Images/screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
 set $screenshot grim ~/Images/screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
@@ -132,15 +136,16 @@ input * {
     # Start a terminal
     bindsym $mod+Return exec $term
 
-    # Kill focused window
+	bindsym $mod+v exec clipman pick --tool wofi
+    
+	# Kill focused window
     bindsym $mod+Shift+q kill
 
     # Launcher 
     bindsym $mod+d exec $menu 
-    bindsym $mod+Shift+v exec nwg-clipman
+    # bindsym $mod+Shift+v exec nwg-clipman
     bindsym $mod+e exec $explorer
     bindsym $mod+m exec $email
-	bindsym $mod+Shift+b exec $browser
 	bindsym $mod+Escape exec swaylock -f -c 000000
 
     # Drag floating windows by holding down $mod and left mouse button.
@@ -212,12 +217,12 @@ input * {
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+    bindsym $mod+Shift+b splith
+    bindsym $mod+Shift+v splitv
 
     # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
+    # bindsym $mod+s layout stacking
+    # bindsym $mod+w layout tabbed
     bindsym $mod+x layout toggle split
 
     # Make the current focus fullscreen
@@ -278,8 +283,10 @@ bindsym $mod+r mode "resize"
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec "$conf/scripts/backlight.sh 5%-"
     bindsym --locked XF86MonBrightnessUp exec "$conf/scripts/backlight.sh 5%+""
-    # Special key to take a screenshot with grim
-    bindsym Print exec grim
+	# Full screen screenshot
+	bindsym $mod+Print exec $screenshot
+	# Area selection screenshot
+	bindsym Print exec $screenclip
 	# Player controls
 	bindsym Control+Alt+Down exec playerctl play-pause
 	bindsym Control+Alt+Right exec playerctl next

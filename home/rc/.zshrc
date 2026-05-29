@@ -1,5 +1,6 @@
 ## Environment
 export LANG=en_US.UTF-8
+export QT_QPA_PLATFORMTHEME=qt6ct
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH:/usr/local/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin:/usr/local/STMicroelectronics/STMCUFinder
 
 if [[ -n $SSH_CONNECTION ]]; then
@@ -51,8 +52,9 @@ plugins=(git zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlig
 source $ZSH/oh-my-zsh.sh
 
 ## Functions
-supergfxctl() { command supergfxctl -gs "$@"; }
-visudo()       { command sudo EDITOR=$EDITOR visudo; }
+supergfxctl()	{ command supergfxctl -gs "$@"; }
+visudo()		{ command sudo EDITOR=$EDITOR visudo; }
+looking-glass()	{ command looking-glass-client -m KEY_RIGHTCTRL wayland:fractionScale=no win:dontUpscale=yes }
 
 kexec-reboot() {
     local KERNEL="$(uname -r)"

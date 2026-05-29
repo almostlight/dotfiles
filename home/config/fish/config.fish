@@ -15,6 +15,7 @@ if string match -qrq wayland (echo $XDG_SESSION_TYPE)
     alias xclip='wl-copy'
 end
 
+export QT_QPA_PLATFORMTHEME=qt6ct
 export EDITOR=nvim
 # export EDITOR=vim
 ## Nvim version to use (name of config directory in ~/.config/)

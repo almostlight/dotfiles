@@ -1,0 +1,26 @@
+* {
+  border: none;
+}
+
+window {
+  font-size: 24px;
+  font-family: "Ubuntu";
+  background-color: #282828;
+  color: #949494;
+  border-bottom: 0px solid #000000;
+}
+
+#entry:selected {
+  background-color: #ff8700;
+}
+
+#text:selected {
+  background-color: transparent;
+  color: grey;
+}
+
+#input {
+  background-color: #282828;
+  color: white;
+}
+
