@@ -56,7 +56,7 @@ set $term alacritty
 set $explorer dolphin
 set $email thunderbird
 
-set $browser brave
+set $browser firefox
 # Your preferred application launcher
 set $menu wofi --show drun
 
@@ -139,6 +139,7 @@ input * {
 
     # Launcher 
     bindsym $mod+d exec $menu 
+    bindsym $mod+Shift+d exec $browser
     # bindsym $mod+Shift+v exec nwg-clipman
     bindsym $mod+e exec $explorer
     bindsym $mod+m exec $email
@@ -161,7 +162,7 @@ input * {
 #
     # Move your focus around
     bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
+
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
     # Or use $mod+[up|down|left|right]

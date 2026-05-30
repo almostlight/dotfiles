@@ -13,22 +13,22 @@ install_packages() {
         sudo pacman -Syu --noconfirm $pkg_list
     elif command -v dnf &> /dev/null; then
         sudo dnf install --skip-unavailable -y $pkg_list
-		# Enable RPM Fusion repos
-		sudo dnf install \
+		# enable repos
+		sudo -qy dnf copr enable lihaohong/yazi 
+		sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
+		sudo dnf -qy install \
 			"https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
 			"https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-		yes | sudo dnf install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
-		yes | sudo dnf install espanso-wayland
+		sudo dnf -qy install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+		echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+		# install packages
+		sudo dnf -qy install espanso-wayland yazi
+		# sudo dnf -qy install onedrive
+		dnf -qy check-update && sudo dnf -qy install code
+		curl -fsS https://dl.brave.com/install.sh | sh
+		# enable espanso
 		sudo setcap "cap_dac_override+p" $(which espanso)
 		espanso service register
-		# espanso start
-		# Install Brave Browser
-		curl -fsS https://dl.brave.com/install.sh | sh
-		# Install VS Code
-		sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
-		echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
-		yes | sudo dnf install onedrive
-		yes | dnf check-update && sudo dnf install code
     fi
 }
 
