@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces","custom/arrow6","sway/mode","custom/mpd"],
     "modules-center": ["clock#1"],
-    "modules-right": ["custom/arrow5","pulseaudio","custom/arrow4", "clock#2", "custom/arrow3","cpu", "memory", "battery", "custom/arrow1", "tray","custom/arrow2"],
+    "modules-right": ["custom/arrow5","pulseaudio","custom/arrow4", "clock#2", "custom/arrow3","cpu", "memory", "battery", "custom/arrow1", "tray","custom/arrow2", "custom/gpustate"],
     // Modules configuration
      "sway/workspaces": {
          "disable-scroll": true,
@@ -93,5 +93,17 @@
 	},
 	"custom/arrow2": {
 		"format": ""
+	},
+	"custom/gpustate": {
+	    "format": "{}",
+		"return-type": "json",
+		"interval": 5,
+		"exec": "~/.config/waybar/modules/gpustate.sh",
+		"menu": "on-click",
+		"menu-file": "~/.config/waybar/gfx_menu.xml",
+		"menu-actions": {
+			"Integrated": "supergfxctl -m Integrated",
+			"Hybrid": "supergfxctl -m Hybrid"
+		}
 	}
 }

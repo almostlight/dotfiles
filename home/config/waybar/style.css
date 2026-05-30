@@ -141,3 +141,9 @@ window#waybar {
 #battery.low {
     color: #ffa500; /* Orange when low */
 }
+#custom-gpustate{
+	font-size: 14px;
+	color: #282828;
+	background: #ff8700;
+    padding: 0 20px;
+}
