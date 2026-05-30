@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pkg_list="git curl tailscale sway waybar wmenu wl-clipboard neovim ranger unzip openssh alacritty base-devel fastfetch trash-cli fira-code-fonts tesseract" 
+pkg_list="firefox git curl tailscale sway waybar wmenu wl-clipboard neovim ranger unzip openssh alacritty base-devel fastfetch trash-cli fira-code-fonts tesseract" 
 git_dir="$HOME/github"
 target_path="$git_dir/dotfiles_by_almostlight"
 
@@ -25,7 +25,7 @@ install_packages() {
 		sudo dnf -qy install espanso-wayland yazi
 		# sudo dnf -qy install onedrive
 		dnf -qy check-update && sudo dnf -qy install code
-		curl -fsS https://dl.brave.com/install.sh | sh
+		# curl -fsS https://dl.brave.com/install.sh | sh
 		# enable espanso
 		sudo setcap "cap_dac_override+p" $(which espanso)
 		espanso service register
