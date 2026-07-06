@@ -13,6 +13,7 @@ output <name> scale_filter linear
 set $conf "~/.config/sway"
 exec export PATH="/var/lib/flatpak/exports/bin:$PATH"
 exec export QT_QPA_PLATFORMTHEME="qt6ct"
+exec --no-startup-id keepassxc --minimized
 
 # set tiling settings 
 for_window [app_id="blueman-manager"] floating enable
@@ -118,6 +119,7 @@ input type:touchpad {
 input type:keyboard {
 	xkb_layout "pl"
 	xkb_variant ""
+	xkb_options "compose:ralt"
 }
 
 input * {
@@ -179,38 +181,6 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 #
-# Workspaces:
-#
-set $ws1 1:
-set $ws2 2:
-set $ws3 3:
-set $ws8 8:
-set $ws9 9:
-set $ws10 10:
-# Switch to workspace
-bindsym $mod+1 workspace $ws1; exec swaymsg "output * scale $wl_scale"
-bindsym $mod+2 workspace $ws2; exec swaymsg "output * scale $wl_scale"
-bindsym $mod+3 workspace $ws3; exec swaymsg "output * scale $wl_scale"
-bindsym $mod+4 workspace $ws4; exec swaymsg "output * scale $wl_scale"
-bindsym $mod+5 workspace $ws5; exec swaymsg "output * scale $wl_scale"
-bindsym $mod+6 workspace $ws6; exec swaymsg "output * scale $x_scale"
-bindsym $mod+7 workspace $ws7; exec swaymsg "output * scale $x_scale"
-bindsym $mod+8 workspace $ws8; exec swaymsg "output * scale $x_scale"
-bindsym $mod+9 workspace $ws9; exec swaymsg "output * scale $x_scale"
-bindsym $mod+0 workspace $ws10; exec swaymsg "output * scale $x_scale"
-# Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-# bindsym $mod+Shift+4 move container to workspace $ws4
-# bindsym $mod+Shift+5 move container to workspace $ws5
-# bindsym $mod+Shift+6 move container to workspace $ws6
-# bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
-# Note: workspaces can have any name you want, not just numbers.
-# We just use 1-10 as the default.
 #
 # Layout stuff:
 #
@@ -251,7 +221,7 @@ bindsym $mod+minus scratchpad show
 #
 # Resizing containers:
 #
-mode "resize" {
+mode "Resize" {
     # left will shrink the containers width
     # right will grow the containers width
     # up will shrink the containers height
@@ -271,7 +241,7 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "Resize"
 #
 # Utilities:
 #
@@ -321,6 +291,39 @@ mode --pango_markup "$mode_system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+
+# Workspaces:
+#
+set $ws1 1:
+set $ws2 2:
+set $ws3 3:
+set $ws8 8:
+set $ws9 9:
+set $ws10 10:
+# Switch to workspace
+bindsym $mod+1 workspace $ws1; exec swaymsg "output * scale $wl_scale"
+bindsym $mod+2 workspace $ws2; exec swaymsg "output * scale $wl_scale"
+bindsym $mod+3 workspace $ws3; exec swaymsg "output * scale $wl_scale"
+bindsym $mod+4 workspace $ws4; exec swaymsg "output * scale $wl_scale"
+bindsym $mod+5 workspace $ws5; exec swaymsg "output * scale $wl_scale"
+bindsym $mod+6 workspace $ws6; exec swaymsg "output * scale $x_scale"
+bindsym $mod+7 workspace $ws7; exec swaymsg "output * scale $x_scale"
+bindsym $mod+8 workspace $ws8; exec swaymsg "output * scale $x_scale"
+bindsym $mod+9 workspace $ws9; exec swaymsg "output * scale $x_scale"
+bindsym $mod+0 workspace $ws10; exec swaymsg "output * scale $x_scale"
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+for_window [app_id="keepassxc"] floating enable
 
 bar {
 	swaybar_command waybar

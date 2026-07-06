@@ -1,11 +1,11 @@
 {
     "layer": "top", // Waybar at top layer
-    // "position": "bottom", // Waybar at the bottom of your screen
+    "position": "top", // Waybar at the bottom of your screen
     "height": 25, // Waybar height
     // "width": 1280, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces","custom/arrow6","sway/mode","custom/mpd"],
-    "modules-center": ["clock#1"],
+    "modules-left": ["sway/workspaces","custom/arrow6","custom/mpd"],
+    "modules-center": ["clock#1","sway/mode"],
     "modules-right": ["custom/arrow5","pulseaudio","custom/arrow4", "clock#2", "custom/arrow3","cpu", "memory", "battery", "custom/arrow1", "tray","custom/arrow2", "custom/gpustate"],
     // Modules configuration
      "sway/workspaces": {

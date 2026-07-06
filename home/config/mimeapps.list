@@ -1,28 +1,44 @@
 [Added Associations]
+application/x-extension-htm=userapp-Firefox-9M9XQ3.desktop;
+application/x-extension-html=userapp-Firefox-9M9XQ3.desktop;
+application/x-extension-shtml=userapp-Firefox-9M9XQ3.desktop;
+application/x-extension-xht=userapp-Firefox-9M9XQ3.desktop;
+application/x-extension-xhtml=userapp-Firefox-9M9XQ3.desktop;
 application/x-ipynb+json=code.desktop;
-application/zip=matlab.desktop;
+application/xhtml+xml=userapp-Firefox-9M9XQ3.desktop;
+application/zip=org.kde.ark.desktop;matlab.desktop;
 image/png=org.kde.gwenview.desktop;org.kde.kolourpaint.desktop;org.qutebrowser.qutebrowser.desktop;okularApplication_kimgio.desktop;gimp.desktop;brave-browser.desktop;com.brave.Browser.desktop;
-text/html=com.brave.Browser.desktop;brave-browser.desktop;org.mozilla.firefox.desktop;org.qutebrowser.qutebrowser.desktop;org.kde.kwrite.desktop;nvim.desktop;org.zotero.Zotero.desktop;okularApplication_txt.desktop;libreoffice-writer.desktop;
+text/html=com.brave.Browser.desktop;brave-browser.desktop;org.mozilla.firefox.desktop;org.qutebrowser.qutebrowser.desktop;org.kde.kwrite.desktop;nvim.desktop;org.zotero.Zotero.desktop;okularApplication_txt.desktop;libreoffice-writer.desktop;userapp-Firefox-9M9XQ3.desktop;
 text/plain=org.kde.kwrite.desktop;com.st.STM32CubeMX.desktop;nvim.desktop;libreoffice-writer.desktop;org.zotero.Zotero.desktop;okularApplication_txt.desktop;
+text/x-python=org.kde.kwrite.desktop;code.desktop;com.st.STM32CubeMX.desktop;nvim.desktop;libreoffice-writer.desktop;org.zotero.Zotero.desktop;okularApplication_txt.desktop;
+x-scheme-handler/chrome=userapp-Firefox-9M9XQ3.desktop;
 x-scheme-handler/geo=google-maps-geo-handler.desktop;
-x-scheme-handler/http=com.brave.Browser.desktop;brave-browser.desktop;
-x-scheme-handler/https=com.brave.Browser.desktop;brave-browser.desktop;
+x-scheme-handler/http=userapp-Firefox-9M9XQ3.desktop;com.brave.Browser.desktop;brave-browser.desktop;
+x-scheme-handler/https=userapp-Firefox-9M9XQ3.desktop;com.brave.Browser.desktop;brave-browser.desktop;
 x-scheme-handler/mailto=net.thunderbird.Thunderbird.desktop;
 
 [Default Applications]
+application/x-extension-htm=userapp-Firefox-9M9XQ3.desktop
+application/x-extension-html=userapp-Firefox-9M9XQ3.desktop
+application/x-extension-shtml=userapp-Firefox-9M9XQ3.desktop
+application/x-extension-xht=userapp-Firefox-9M9XQ3.desktop
+application/x-extension-xhtml=userapp-Firefox-9M9XQ3.desktop
 application/x-ipynb+json=code.desktop;
-application/zip=matlab.desktop;
+application/xhtml+xml=userapp-Firefox-9M9XQ3.desktop
+application/zip=org.kde.ark.desktop;
 image/png=org.kde.gwenview.desktop;
-text/html=brave-browser.desktop
+text/html=userapp-Firefox-9M9XQ3.desktop
 text/plain=org.kde.kwrite.desktop;
+text/x-python=org.kde.kwrite.desktop;
 x-scheme-handler/about=brave-browser.desktop
 x-scheme-handler/adskidmgr=adskidmgr-opener.desktop
+x-scheme-handler/chrome=userapp-Firefox-9M9XQ3.desktop
 x-scheme-handler/geo=google-maps-geo-handler.desktop;
-x-scheme-handler/http=brave-browser.desktop
-x-scheme-handler/https=brave-browser.desktop
+x-scheme-handler/http=userapp-Firefox-9M9XQ3.desktop
+x-scheme-handler/https=userapp-Firefox-9M9XQ3.desktop
 x-scheme-handler/mailto=net.thunderbird.Thunderbird.desktop;
 x-scheme-handler/stabilitymatrix=stabilitymatrix.desktop
 x-scheme-handler/unknown=brave-browser.desktop
 
 [Removed Associations]
-application/zip=org.kde.ark.desktop;org.prismlauncher.PrismLauncher.desktop;
+application/zip=org.prismlauncher.PrismLauncher.desktop;
