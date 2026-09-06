@@ -38,16 +38,18 @@ update_repository() {
 }
 
 read -r -p "Install or remove this dotfiles setup? [I/r] " action_answer
-case "$action_answer" in
-	[Rr]) action=remove ;;
-	*) action=install ;;
-esac
+if [[ "$action_answer" =~ ^[Rr]$ ]]; then
+	action=remove
+else
+	action=install
+fi
 
 read -r -p "Is this a WSL/headless installation? [Y/n] " headless_answer
-case "$headless_answer" in
-	[Nn]) headless=false ;;
-	*) headless=true ;;
-esac
+if [[ "$headless_answer" =~ ^[Nn]$ ]]; then
+	headless=false
+else
+	headless=true
+fi
 
 # Install packages based on distro
 install_packages() {
