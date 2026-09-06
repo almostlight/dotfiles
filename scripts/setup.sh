@@ -37,14 +37,14 @@ update_repository() {
 	fi
 }
 
-read -r -p "Install or remove this dotfiles setup? [I/r] " action_answer
+read -r -p "Install or remove this dotfiles setup? [I/r] " action_answer < /dev/tty
 if [[ "$action_answer" =~ ^[Rr]$ ]]; then
 	action=remove
 else
 	action=install
 fi
 
-read -r -p "Is this a WSL/headless installation? [Y/n] " headless_answer
+read -r -p "Is this a WSL/headless installation? [Y/n] " headless_answer < /dev/tty
 if [[ "$headless_answer" =~ ^[Nn]$ ]]; then
 	headless=false
 else
