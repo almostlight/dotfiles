@@ -10,19 +10,44 @@ fedora_graphical_pkg_list="espanso-wayland yazi code"
 git_dir="$HOME/github"
 target_path="$git_dir/dotfiles_by_almostlight"
 
+update_repository() {
+	local had_local_changes=false
+	if [[ -n "$(git status --porcelain)" ]]; then
+		had_local_changes=true
+		printf 'Local changes found; preserving them while updating the repository...\n'
+		if ! git stash push --include-untracked -m "setup.sh preserve local changes"; then
+			printf 'Could not preserve local changes; aborting repository update.\n' >&2
+			return 1
+		fi
+	fi
+
+	if ! git pull --rebase; then
+		if [[ "$had_local_changes" == true ]]; then
+			git stash pop || true
+		fi
+		return 1
+	fi
+
+	if [[ "$had_local_changes" == true ]]; then
+		if ! git stash pop; then
+			printf 'Repository updated, but local changes could not be reapplied.\n' >&2
+			printf 'Resolve the stash conflict manually before running setup again.\n' >&2
+			return 1
+		fi
+	fi
+}
+
 read -r -p "Install or remove this dotfiles setup? [I/r] " action_answer
-if [[ "$action_answer" =~ ^[Rr]$ ]]; then
-	action=remove
-else
-	action=install
-fi
+case "$action_answer" in
+	[Rr]) action=remove ;;
+	*) action=install ;;
+esac
 
 read -r -p "Is this a WSL/headless installation? [Y/n] " headless_answer
-if [[ "$headless_answer" =~ ^[Nn]$ ]]; then
-	headless=false
-else
-	headless=true
-fi
+case "$headless_answer" in
+	[Nn]) headless=false ;;
+	*) headless=true ;;
+esac
 
 # Install packages based on distro
 install_packages() {
@@ -92,7 +117,7 @@ mkdir -p "$git_dir"
 echo "$target_path"
 if [[ -d "$target_path/.git" ]]; then 
 	echo "Dotfiles repository target path exists! Pulling repository..."
-	cd $target_path && git pull --rebase
+	cd "$target_path" && update_repository
 else
 	echo "Cloning dotfiles repository..."
 	rm -rf "$target_path"

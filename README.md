@@ -4,8 +4,9 @@ This repository stores configuration files and scripts used to set up and manage
 
 ## Structure
 
-- `home/`: user config files for applications.
-- `rc/`: shell and editor configs (e.g. `.zshrc`, `.vimrc`) and themes.
+- `home/headless/`: terminal, shell, editor, and other headless configuration.
+- `home/graphical/`: desktop and graphical application configuration.
+- `themes/`: desktop themes and icons.
 - `scripts/`: helper scripts to deploy the configuration.
 
 ## Deployment
@@ -17,9 +18,10 @@ curl -sSL https://raw.githubusercontent.com/almostlight/dotfiles/main/scripts/se
 ```
 It will install necessary packages, clone the repository, and deploy the config.
 The script asks whether the system is WSL/headless so graphical packages and
-desktop services can be skipped. Choosing `r` at the first prompt removes the
-packages installed by the script and restores the most recent configuration
-backup.
+desktop services can be skipped. In headless mode, deployment also limits
+symlinks to the terminal, editor, shell, and other headless configuration.
+Choosing `r` at the first prompt removes the packages installed by the script
+and restores the most recent configuration backup.
 #### 2. Manual
 Review the files under `home/` and `rc/` and adapt as you see fit. Run `./scripts/deploy.sh` to symlink configuration files into your home directory.
 

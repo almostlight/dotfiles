@@ -27,19 +27,22 @@ log_info "Git aliases configured"
 repo_root="$(dirname "$(realpath -s "$0")")/.."
 script_dir=$(dirname "$(realpath -s "$0")")
 theme_dir="$repo_root/themes"
-config_source="$repo_root/home/config"
-rc_source="$repo_root/home/rc"
+headless_config_source="$repo_root/home/headless/config"
+graphical_config_source="$repo_root/home/graphical/config"
+headless_rc_source="$repo_root/home/headless/rc"
+graphical_rc_source="$repo_root/home/graphical/rc"
+headless_bin_source="$repo_root/home/headless/bin"
+graphical_bin_source="$repo_root/home/graphical/bin"
 today=$(date -I)
 
-if [[ ! -d "$config_source" ]]; then
-    log_error "Error: Configuration source directory not found: $config_source" >&2
-    exit 1
-fi
-
-if [[ ! -d "$rc_source" ]]; then
-	log_error "Error: RC source directory not found: $rc_source" >&2
-    exit 1
-fi
+for source_dir in "$headless_config_source" "$graphical_config_source" \
+    "$headless_rc_source" "$graphical_rc_source" \
+    "$headless_bin_source" "$graphical_bin_source"; do
+    if [[ ! -d "$source_dir" ]]; then
+        log_error "Error: Source directory not found: $source_dir" >&2
+        exit 1
+    fi
+done
 
 
 link_item() {
@@ -116,6 +119,30 @@ unlink_directory_contents() {
     eval "$old_shopt" 2>/dev/null || true
 }
 
+link_configs() {
+    link_directory_contents "$headless_config_source" "$HOME/.config/"
+    link_directory_contents "$headless_rc_source" "$HOME"
+    link_directory_contents "$headless_bin_source" "$HOME/.local/bin/"
+
+    if [[ "${DOTFILES_HEADLESS:-false}" != true ]]; then
+        link_directory_contents "$graphical_config_source" "$HOME/.config/"
+        link_directory_contents "$graphical_rc_source" "$HOME"
+        link_directory_contents "$graphical_bin_source" "$HOME/.local/bin/"
+    fi
+}
+
+unlink_configs() {
+    unlink_directory_contents "$headless_config_source" "$HOME/.config"
+    unlink_directory_contents "$headless_rc_source" "$HOME"
+    unlink_directory_contents "$headless_bin_source" "$HOME/.local/bin"
+
+    if [[ "${DOTFILES_HEADLESS:-false}" != true ]]; then
+        unlink_directory_contents "$graphical_config_source" "$HOME/.config"
+        unlink_directory_contents "$graphical_rc_source" "$HOME"
+        unlink_directory_contents "$graphical_bin_source" "$HOME/.local/bin"
+    fi
+}
+
 restore_latest_backup() {
     local backup_dir
     backup_dir=$(find "$HOME/.backup" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' 2>/dev/null \
@@ -132,13 +159,13 @@ restore_latest_backup() {
 
 if [[ "${1:-}" == --uninstall ]]; then
     systemctl --user disable --now spotifyd.service espanso.service 2>/dev/null || true
-    unlink_directory_contents "$config_source" "$HOME/.config"
-    unlink_directory_contents "$rc_source" "$HOME"
-    unlink_directory_contents "$script_dir/linked" "$HOME/.local/bin"
-    unlink_directory_contents "$theme_dir/gruvbox-plus-kde/plasma/desktoptheme" "$HOME/.local/share/plasma/desktoptheme"
-    unlink_directory_contents "$theme_dir/gruvbox-plus-kde/plasma/look-and-feel" "$HOME/.local/share/plasma/look-and-feel"
-    unlink_directory_contents "$theme_dir/gruvbox-plus-kde/color-scheme" "$HOME/.local/share/color-schemes"
-    unlink_directory_contents "$theme_dir/gruvbox-plus-icon-pack" "$HOME/.local/share/icons"
+    unlink_configs
+    if [[ "${DOTFILES_HEADLESS:-false}" != true ]]; then
+        unlink_directory_contents "$theme_dir/gruvbox-plus-kde/plasma/desktoptheme" "$HOME/.local/share/plasma/desktoptheme"
+        unlink_directory_contents "$theme_dir/gruvbox-plus-kde/plasma/look-and-feel" "$HOME/.local/share/plasma/look-and-feel"
+        unlink_directory_contents "$theme_dir/gruvbox-plus-kde/color-scheme" "$HOME/.local/share/color-schemes"
+        unlink_directory_contents "$theme_dir/gruvbox-plus-icon-pack" "$HOME/.local/share/icons"
+    fi
     sudo rm -f /usr/bin/spotifyd
     restore_latest_backup
     log_success "Dotfiles configuration removed and latest backup restored"
@@ -146,7 +173,10 @@ if [[ "${1:-}" == --uninstall ]]; then
 fi
 
 # Make scripts executable
-chmod +x "$script_dir"/linked/*
+chmod +x "$headless_bin_source"/*
+if [[ "${DOTFILES_HEADLESS:-false}" != true ]]; then
+    chmod +x "$graphical_bin_source"/*
+fi
 if [[ -d "$HOME/.config/sway/scripts" ]]; then
     chmod +x "$HOME/.config/sway/scripts"/*
 fi
@@ -164,10 +194,7 @@ if [[ "${DOTFILES_HEADLESS:-false}" != true ]]; then
     fi
 fi
 # Link configs
-link_directory_contents "$config_source" "$HOME/.config/"
-link_directory_contents "$rc_source" "$HOME"
-# Link scripts
-link_directory_contents "$script_dir/linked" "$HOME/.local/bin/"
+link_configs
 # Link themes
 if [[ "${DOTFILES_HEADLESS:-false}" != true ]]; then
     link_directory_contents "$theme_dir/gruvbox-plus-kde/plasma/desktoptheme/" "$HOME/.local/share/plasma/desktoptheme/"
