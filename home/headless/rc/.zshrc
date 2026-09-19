@@ -17,7 +17,9 @@ elif [[ $(uname -r) =~ '[wW][sS][lL]' ]]; then
     export BROWSER=wslview
     alias explorer="explorer.exe"
     alias wsl="wsl.exe"
+	alias winget="winget.exe"
     alias clip="clip.exe"
+	alias reboot='wsl.exe --shutdown'
 elif [[ $(uname -r) =~ '[aA]rch' ]]; then
     export DISTRO="arch"
 fi
@@ -83,6 +85,7 @@ alias fuck='thefuck'
 alias sudo!='fc -ln -1 | xargs sudo'
 
 ## Aliases — git
+alias gst='git status'
 alias git-profile='xdg-open https://github.com/"$(git config user.name)" 2>/dev/null'
 alias git-autopush='f() { git add --all &&\
 	git commit -am "${1:-saving progress}" &&\

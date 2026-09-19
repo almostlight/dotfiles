@@ -119,6 +119,54 @@ unlink_directory_contents() {
     eval "$old_shopt" 2>/dev/null || true
 }
 
+enable_wsl_interop() {
+    [[ "$(uname -r)" =~ [wW][sS][lL] ]] || return 0
+
+    local config=/etc/wsl.conf
+    local current_config transformed_config
+    current_config=$(mktemp)
+    transformed_config="$current_config.new"
+
+    if sudo test -f "$config"; then
+        sudo cat "$config" > "$current_config"
+    fi
+
+    awk '
+        BEGIN { in_interop = 0; found_section = 0; found_enabled = 0 }
+        /^\[.*\]$/ {
+            if (in_interop && !found_enabled) {
+                print "enabled=true"
+                found_enabled = 1
+            }
+            in_interop = ($0 == "[interop]")
+            if (in_interop) found_section = 1
+            print
+            next
+        }
+        in_interop && /^[[:space:]]*enabled[[:space:]]*=/ {
+            if (!found_enabled) {
+                print "enabled=true"
+                found_enabled = 1
+            }
+            next
+        }
+        { print }
+        END {
+            if (!found_section) print "[interop]\nenabled=true"
+            else if (in_interop && !found_enabled) print "enabled=true"
+        }
+    ' "$current_config" > "$transformed_config"
+
+    if sudo cmp -s "$transformed_config" "$config"; then
+        log_info "WSL interop is already enabled"
+    else
+        sudo install -m 0644 "$transformed_config" "$config"
+        log_success "WSL interop enabled in $config"
+    fi
+
+    rm -f "$current_config" "$transformed_config"
+}
+
 link_configs() {
     link_directory_contents "$headless_config_source" "$HOME/.config/"
     link_directory_contents "$headless_rc_source" "$HOME"
