@@ -4,6 +4,7 @@ if string match -qrq '[wW][sS][lL]' (uname -r)
     export DISTRO="wsl"
     alias explorer="explorer.exe"
     alias wsl="wsl.exe"
+	alias reboot="powershell.exe Restart-Computer"
     alias clip="clip.exe"
 else if string match -qrq '[aA]rch' (uname -r)
     export DISTRO="arch"

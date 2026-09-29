@@ -1,10 +1,10 @@
 #!/bin/bash
 
-apt_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh-client build-essential fastfetch trash-cli tesseract-ocr zsh wget"
+apt_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh-client build-essential fastfetch trash-cli tesseract-ocr zsh wget fish"
 apt_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fonts-firacode"
-pacman_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-devel fastfetch trash-cli tesseract zsh wget"
+pacman_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-devel fastfetch trash-cli tesseract zsh wget fish"
 pacman_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fira-code-fonts"
-dnf_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-devel fastfetch trash-cli tesseract zsh wget"
+dnf_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-devel fastfetch trash-cli tesseract zsh wget fish"
 dnf_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fira-code-fonts"
 fedora_graphical_pkg_list="espanso-wayland yazi code"
 git_dir="$HOME/github"
@@ -12,6 +12,7 @@ target_path="$git_dir/dotfiles_by_almostlight"
 
 update_repository() {
 	local had_local_changes=false
+	
 	if [[ -n "$(git status --porcelain)" ]]; then
 		had_local_changes=true
 		printf 'Local changes found; preserving them while updating the repository...\n'
@@ -37,18 +38,30 @@ update_repository() {
 	fi
 }
 
-read -r -p "Install or remove this dotfiles setup? [I/r] " action_answer < /dev/tty
+read -r -p "=> Install or remove this dotfiles setup? [I/r] " action_answer < /dev/tty
 if [[ "$action_answer" =~ ^[Rr]$ ]]; then
 	action=remove
 else
 	action=install
 fi
 
-read -r -p "Is this a WSL/headless installation? [Y/n] " headless_answer < /dev/tty
+read -r -p "=> Is this a WSL/headless installation? [Y/n] " headless_answer < /dev/tty
 if [[ "$headless_answer" =~ ^[Nn]$ ]]; then
 	headless=false
 else
 	headless=true
+fi
+
+# Server installs are headless-only: only CLI software, then exit early
+if [[ "$headless" == true ]]; then
+	read -r -p "=> Is this a server installation? [Y/n] " server_answer < /dev/tty
+	if [[ "$server_answer" =~ ^[Nn]$ ]]; then
+		server=false
+	else
+		server=true
+	fi
+else
+	server=false
 fi
 
 # Install packages based on distro
@@ -113,6 +126,14 @@ rm -rf "$HOME/.cache/*"
 if [[ "$action" == install ]]; then
 	install_packages
 fi
+
+if [[ "$server" == true ]]; then
+	echo "Server install: installing CLI software only..."
+	sudo chsh $USER -s $(which fish) || true
+	echo "Fish set as login shell. Setup complete."
+	exit 0
+fi
+
 echo
 
 mkdir -p "$git_dir"

@@ -19,7 +19,7 @@ elif [[ $(uname -r) =~ '[wW][sS][lL]' ]]; then
     alias wsl="wsl.exe"
 	alias winget="winget.exe"
     alias clip="clip.exe"
-	alias reboot='wsl.exe --shutdown'
+	alias reboot="powershell.exe Restart-Computer"
 elif [[ $(uname -r) =~ '[aA]rch' ]]; then
     export DISTRO="arch"
 fi
