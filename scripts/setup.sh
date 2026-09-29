@@ -6,6 +6,7 @@ pacman_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-d
 pacman_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fira-code-fonts"
 dnf_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-devel fastfetch trash-cli tesseract zsh wget fish"
 dnf_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fira-code-fonts"
+dnf_server_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-devel fastfetch trash-cli tesseract zsh wget fish"
 fedora_graphical_pkg_list="espanso-wayland yazi code"
 git_dir="$HOME/github"
 target_path="$git_dir/dotfiles_by_almostlight"
@@ -66,21 +67,30 @@ fi
 
 # Install packages based on distro
 install_packages() {
-    if command -v apt &> /dev/null; then
-        sudo apt update
-		sudo apt install -y $apt_common_pkg_list
-		if [[ "$headless" == false ]]; then
-			sudo apt install -y $apt_graphical_pkg_list
+	if command -v apt &> /dev/null; then
+		sudo apt update
+		if [[ "$server" == true ]]; then
+			sudo apt install -y $apt_common_pkg_list
+		elif [[ "$headless" == false ]]; then
+			sudo apt install -y $apt_common_pkg_list $apt_graphical_pkg_list
+		else
+			sudo apt install -y $apt_common_pkg_list $apt_graphical_pkg_list
 		fi
     elif command -v pacman &> /dev/null; then
-		sudo pacman -Syu --noconfirm $pacman_common_pkg_list
-		if [[ "$headless" == false ]]; then
-			sudo pacman -S --noconfirm $pacman_graphical_pkg_list
+		if [[ "$server" == true ]]; then
+			sudo pacman -Syu --noconfirm $pacman_common_pkg_list
+		elif [[ "$headless" == false ]]; then
+			sudo pacman -S --noconfirm $pacman_common_pkg_list $pacman_graphical_pkg_list
+		else
+			sudo pacman -S --noconfirm $pacman_common_pkg_list $pacman_graphical_pkg_list
 		fi
     elif command -v dnf &> /dev/null; then
-		sudo dnf install --skip-unavailable -y $dnf_common_pkg_list
-		if [[ "$headless" == false ]]; then
-			sudo dnf install --skip-unavailable -y $dnf_graphical_pkg_list
+		if [[ "$server" == true ]]; then
+			sudo dnf install --skip-unavailable -y $dnf_server_pkg_list
+		elif [[ "$headless" == false ]]; then
+			sudo dnf install --skip-unavailable -y $dnf_common_pkg_list $dnf_graphical_pkg_list
+		else
+			sudo dnf install --skip-unavailable -y $dnf_common_pkg_list $dnf_graphical_pkg_list
 		fi
         if [[ "$headless" == false ]]; then
 		    # enable repos
@@ -105,19 +115,28 @@ install_packages() {
 
 remove_packages() {
 	if command -v apt &> /dev/null; then
-		sudo apt remove -y $apt_common_pkg_list
-		if [[ "$headless" == false ]]; then
-			sudo apt remove -y $apt_graphical_pkg_list
+		if [[ "$server" == true ]]; then
+			sudo apt remove -y $apt_common_pkg_list
+		elif [[ "$headless" == false ]]; then
+			sudo apt remove -y $apt_common_pkg_list $apt_graphical_pkg_list
+		else
+			sudo apt remove -y $apt_common_pkg_list $apt_graphical_pkg_list
 		fi
 	elif command -v pacman &> /dev/null; then
-		sudo pacman -Rns --noconfirm $pacman_common_pkg_list
-		if [[ "$headless" == false ]]; then
-			sudo pacman -Rns --noconfirm $pacman_graphical_pkg_list
+		if [[ "$server" == true ]]; then
+			sudo pacman -Rns --noconfirm $pacman_common_pkg_list
+		elif [[ "$headless" == false ]]; then
+			sudo pacman -Rns --noconfirm $pacman_common_pkg_list $pacman_graphical_pkg_list
+		else
+			sudo pacman -Rns --noconfirm $pacman_common_pkg_list $pacman_graphical_pkg_list
 		fi
 	elif command -v dnf &> /dev/null; then
-		sudo dnf remove -y $dnf_common_pkg_list
-		if [[ "$headless" == false ]]; then
-			sudo dnf remove -y $dnf_graphical_pkg_list $fedora_graphical_pkg_list
+		if [[ "$server" == true ]]; then
+			sudo dnf remove -y $dnf_common_pkg_list
+		elif [[ "$headless" == false ]]; then
+			sudo dnf remove -y $dnf_common_pkg_list $dnf_graphical_pkg_list
+		else
+			sudo dnf remove -y $dnf_common_pkg_list $dnf_graphical_pkg_list
 		fi
 	fi
 }
@@ -158,3 +177,4 @@ else
 	exec "$target_path/scripts/deploy.sh"
 fi
 
+ll 
