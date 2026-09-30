@@ -6,6 +6,7 @@ if string match -qrq '[wW][sS][lL]' (uname -r)
     alias wsl="wsl.exe"
 	alias reboot="powershell.exe Restart-Computer"
     alias clip="clip.exe"
+    alias logout="logoff.exe"
 else if string match -qrq '[aA]rch' (uname -r)
     export DISTRO="arch"
 end
@@ -17,8 +18,7 @@ if string match -qrq wayland (echo $XDG_SESSION_TYPE)
 end
 
 export QT_QPA_PLATFORMTHEME=qt6ct
-export EDITOR=nvim
-# export EDITOR=vim
+export EDITOR=vim
 ## Nvim version to use (name of config directory in ~/.config/)
 export NVIM_APPNAME="lightvim"
 #export NVIM_APPNAME=nvim
