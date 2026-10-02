@@ -4,8 +4,8 @@ This repository stores configuration files and scripts used to set up and manage
 
 ## Structure
 
-- `home/headless/`: terminal, shell, editor, and other headless configuration.
-- `home/graphical/`: desktop and graphical application configuration.
+- `home/headless/`: the base terminal, fish shell, Vim, and other CLI configuration.
+- `home/graphical/`: desktop and graphical application configuration layered on top of `home/headless/`.
 - `themes/`: desktop themes and icons.
 - `scripts/`: helper scripts to deploy the configuration.
 
@@ -18,8 +18,10 @@ curl -sSL https://raw.githubusercontent.com/almostlight/dotfiles/main/scripts/se
 ```
 It will install necessary packages, clone the repository, and deploy the config.
 The script asks whether the system is WSL/headless so graphical packages and
-desktop services can be skipped. In headless mode, deployment also limits
-symlinks to the terminal, editor, shell, and other headless configuration.
+desktop services can be skipped. Headless mode deploys only the base
+configuration; graphical mode deploys that same base plus the graphical
+configuration. Vim and fish are installed by default, with fish configured as
+the login shell for both the current user and root.
 Choosing `r` at the first prompt removes the packages installed by the script
 and restores the most recent configuration backup.
 #### 2. Manual

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e  # Exit on any error
+set -Eeuo pipefail
 
 # Colors for output
 RED='\033[0;31m'
@@ -48,21 +48,17 @@ done
 link_item() {
     local source_item="$1"
     local target="$2"
-    local itemname=$(basename "$source_item")
+    local itemname
+    itemname=$(basename "$source_item")
     # Backup existing file/directory
     if [[ -e "$target" || -L "$target" ]]; then
-			if [[ -e "$(readlink $target)" ]]; then
-        	# Create backup path that includes the item name
-        	local relative_path="${target#$HOME/}"
-        	local backup_path="$HOME/.backup/$today/${relative_path}"
-        	
-        	# Create parent directory for backup
-        	mkdir -p "$(dirname "$backup_path")"
-        	
-        	log_info "Backing up existing $itemname to $backup_path"
-        
-			cp -Lr "$target" "$backup_path" #2>/dev/null
-		fi
+        # Create backup path that includes the item name
+        local relative_path="${target#$HOME/}"
+        local backup_path="$HOME/.backup/$today/${relative_path}"
+
+        mkdir -p "$(dirname "$backup_path")"
+        log_info "Backing up existing $itemname to $backup_path"
+        cp -a -- "$target" "$backup_path"
     fi
     # Remove existing item before creating symlink
     rm -rf "$target"
@@ -87,7 +83,8 @@ link_directory_contents() {
         return 1
     fi
     # Enable dotglob to include dotfiles
-    local old_shopt=$(shopt -p dotglob nullglob 2>/dev/null)
+        local old_shopt
+        old_shopt=$(shopt -p dotglob nullglob 2>/dev/null)
     shopt -s dotglob nullglob
     # Ensure target base directory exists
     mkdir -p "$target_base"
@@ -97,8 +94,9 @@ link_directory_contents() {
     for item in "$source_dir"/*; do
         [[ -e "$item" ]] || continue
         
-        local itemname=$(basename "$item")
-		local target="$(realpath $target_base)/$itemname"
+        local itemname
+        itemname=$(basename "$item")
+            local target="$(realpath -m "$target_base")/$itemname"
         
         link_item "$item" "$target"
     done
@@ -110,61 +108,19 @@ unlink_directory_contents() {
     local source_dir="$1"
     local target_base="$2"
 
-    local old_shopt=$(shopt -p dotglob nullglob 2>/dev/null)
+        local old_shopt
+        old_shopt=$(shopt -p dotglob nullglob 2>/dev/null)
     shopt -s dotglob nullglob
     for item in "$source_dir"/*; do
         [[ -e "$item" ]] || continue
-        rm -rf "$target_base/$(basename "$item")"
+        local target="$(realpath -m "$target_base")/$(basename "$item")"
+        if [[ -L "$target" ]] && [[ "$(readlink -f "$target")" == "$(readlink -f "$item")" ]]; then
+            rm -f -- "$target"
+        else
+            log_warn "Skipping unmanaged target: $target"
+        fi
     done
     eval "$old_shopt" 2>/dev/null || true
-}
-
-enable_wsl_interop() {
-    [[ "$(uname -r)" =~ [wW][sS][lL] ]] || return 0
-
-    local config=/etc/wsl.conf
-    local current_config transformed_config
-    current_config=$(mktemp)
-    transformed_config="$current_config.new"
-
-    if sudo test -f "$config"; then
-        sudo cat "$config" > "$current_config"
-    fi
-
-    awk '
-        BEGIN { in_interop = 0; found_section = 0; found_enabled = 0 }
-        /^\[.*\]$/ {
-            if (in_interop && !found_enabled) {
-                print "enabled=true"
-                found_enabled = 1
-            }
-            in_interop = ($0 == "[interop]")
-            if (in_interop) found_section = 1
-            print
-            next
-        }
-        in_interop && /^[[:space:]]*enabled[[:space:]]*=/ {
-            if (!found_enabled) {
-                print "enabled=true"
-                found_enabled = 1
-            }
-            next
-        }
-        { print }
-        END {
-            if (!found_section) print "[interop]\nenabled=true"
-            else if (in_interop && !found_enabled) print "enabled=true"
-        }
-    ' "$current_config" > "$transformed_config"
-
-    if sudo cmp -s "$transformed_config" "$config"; then
-        log_info "WSL interop is already enabled"
-    else
-        sudo install -m 0644 "$transformed_config" "$config"
-        log_success "WSL interop enabled in $config"
-    fi
-
-    rm -f "$current_config" "$transformed_config"
 }
 
 link_configs() {
@@ -228,15 +184,9 @@ fi
 if [[ -d "$HOME/.config/sway/scripts" ]]; then
     chmod +x "$HOME/.config/sway/scripts"/*
 fi
-# Setup zsh
-if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-	log_info "Setting up oh-my-zsh"
-	bash "$script_dir/zsh.sh" && \
-		log_success "zsh setup complete"
-fi
 # Setup Spotifyd and desktop services
 if [[ "${DOTFILES_HEADLESS:-false}" != true ]]; then
-    if [[ ! "$(which spotifyd 2>/dev/null)" ]]; then
+    if ! command -v spotifyd >/dev/null 2>&1; then
         bash "$script_dir/spotifyd.sh" && \
             log_success "Spotifyd installed"
     fi

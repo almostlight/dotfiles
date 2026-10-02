@@ -1,5 +1,4 @@
 # fish config
-source ~/.config/fish/config.d/*
 ## Environment variables 
 if string match -qrq '[wW][sS][lL]' (uname -r)
     export BROWSER=wslview
@@ -21,10 +20,7 @@ end
 
 export QT_QPA_PLATFORMTHEME=qt6ct
 export EDITOR=vim
-## Nvim version to use (name of config directory in ~/.config/)
-export NVIM_APPNAME="lightvim"
-#export NVIM_APPNAME=nvim
-
+export VISUAL=vim
 ## Disable fish default greeting 
 set fish_greeting
 ## Run commands if interactive mode
@@ -54,10 +50,6 @@ end
 alias sudo!="history | head -n1 | xargs sudo"
 alias l ls
 
-if test "$EDITOR" = nvim -o "$VISUAL" = nvim
-    alias vim="nvim"
-end
-
 alias v vim
 alias vl="vim  +\"'\"0"
 alias ff="fastfetch"
@@ -79,8 +71,6 @@ alias python python3
 alias py python
 alias neofetch fastfetch
 alias bt bluetui
-alias time_nvim="nvim --startuptime /dev/stdout +qall && echo && time nvim +q"
-
 alias git-profile="xdg-open https://github.com/"$(git config user.name)""
 alias git-autopush="git add --all && git commit -am 'autosaving progress' && git push && git status"
 alias wol='sudo ether-wake'

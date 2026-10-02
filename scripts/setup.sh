@@ -1,15 +1,17 @@
 #!/bin/bash
+set -Eeuo pipefail
 
-apt_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh-client build-essential fastfetch trash-cli tesseract-ocr zsh wget fish"
+apt_common_pkg_list="git curl jq tailscale vim ranger unzip openssh-client build-essential fastfetch trash-cli tesseract-ocr wget fish"
 apt_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fonts-firacode"
-pacman_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-devel fastfetch trash-cli tesseract zsh wget fish"
+pacman_common_pkg_list="git curl jq tailscale vim ranger unzip openssh base-devel fastfetch trash-cli tesseract wget fish"
 pacman_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fira-code-fonts"
-dnf_common_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-devel fastfetch trash-cli tesseract zsh wget fish"
+dnf_common_pkg_list="git curl jq tailscale vim ranger unzip openssh base-devel fastfetch trash-cli tesseract wget fish"
 dnf_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fira-code-fonts"
-dnf_server_pkg_list="git curl jq tailscale neovim ranger unzip openssh base-devel fastfetch trash-cli tesseract zsh wget fish"
-fedora_graphical_pkg_list="espanso-wayland yazi code"
 git_dir="$HOME/github"
 target_path="$git_dir/dotfiles_by_almostlight"
+state_dir="$HOME/.local/state/dotfiles-by-almostlight"
+shell_state_file="$state_dir/login-shells"
+package_state_file="$state_dir/installed-packages"
 
 update_repository() {
 	local had_local_changes=false
@@ -74,7 +76,7 @@ install_packages() {
 		elif [[ "$headless" == false ]]; then
 			sudo apt install -y $apt_common_pkg_list $apt_graphical_pkg_list
 		else
-			sudo apt install -y $apt_common_pkg_list $apt_graphical_pkg_list
+			sudo apt install -y $apt_common_pkg_list
 		fi
     elif command -v pacman &> /dev/null; then
 		if [[ "$server" == true ]]; then
@@ -82,15 +84,15 @@ install_packages() {
 		elif [[ "$headless" == false ]]; then
 			sudo pacman -S --noconfirm $pacman_common_pkg_list $pacman_graphical_pkg_list
 		else
-			sudo pacman -S --noconfirm $pacman_common_pkg_list $pacman_graphical_pkg_list
+			sudo pacman -S --noconfirm $pacman_common_pkg_list
 		fi
     elif command -v dnf &> /dev/null; then
 		if [[ "$server" == true ]]; then
-			sudo dnf install --skip-unavailable -y $dnf_server_pkg_list
+			sudo dnf install --skip-unavailable -y $dnf_common_pkg_list
 		elif [[ "$headless" == false ]]; then
 			sudo dnf install --skip-unavailable -y $dnf_common_pkg_list $dnf_graphical_pkg_list
 		else
-			sudo dnf install --skip-unavailable -y $dnf_common_pkg_list $dnf_graphical_pkg_list
+			sudo dnf install --skip-unavailable -y $dnf_common_pkg_list
 		fi
         if [[ "$headless" == false ]]; then
 		    # enable repos
@@ -104,53 +106,126 @@ install_packages() {
 		    # install packages
 		    sudo dnf -qy install espanso-wayland yazi
 		    # sudo dnf -qy install onedrive
-		    dnf -qy check-update && sudo dnf -qy install code
+		    sudo dnf -qy install code
 		    # curl -fsS https://dl.brave.com/install.sh | sh
 		    # enable espanso
-		    sudo setcap "cap_dac_override+p" $(which espanso)
+		    sudo setcap "cap_dac_override+p" "$(command -v espanso)"
 		    espanso service register
         fi
     fi
 }
 
-remove_packages() {
+set_default_shells() {
+	local fish_path
+	fish_path=$(command -v fish)
+
+	sudo chsh -s "$fish_path" "$USER" || true
+	sudo chsh -s "$fish_path" root || true
+}
+
+selected_package_list() {
+	local common_packages graphical_packages
 	if command -v apt &> /dev/null; then
-		if [[ "$server" == true ]]; then
-			sudo apt remove -y $apt_common_pkg_list
-		elif [[ "$headless" == false ]]; then
-			sudo apt remove -y $apt_common_pkg_list $apt_graphical_pkg_list
-		else
-			sudo apt remove -y $apt_common_pkg_list $apt_graphical_pkg_list
-		fi
+		common_packages="$apt_common_pkg_list"
+		graphical_packages="$apt_graphical_pkg_list"
 	elif command -v pacman &> /dev/null; then
-		if [[ "$server" == true ]]; then
-			sudo pacman -Rns --noconfirm $pacman_common_pkg_list
-		elif [[ "$headless" == false ]]; then
-			sudo pacman -Rns --noconfirm $pacman_common_pkg_list $pacman_graphical_pkg_list
-		else
-			sudo pacman -Rns --noconfirm $pacman_common_pkg_list $pacman_graphical_pkg_list
-		fi
-	elif command -v dnf &> /dev/null; then
-		if [[ "$server" == true ]]; then
-			sudo dnf remove -y $dnf_common_pkg_list
-		elif [[ "$headless" == false ]]; then
-			sudo dnf remove -y $dnf_common_pkg_list $dnf_graphical_pkg_list
-		else
-			sudo dnf remove -y $dnf_common_pkg_list $dnf_graphical_pkg_list
-		fi
+		common_packages="$pacman_common_pkg_list"
+		graphical_packages="$pacman_graphical_pkg_list"
+	else
+		common_packages="$dnf_common_pkg_list"
+		graphical_packages="$dnf_graphical_pkg_list"
+	fi
+	if [[ "$headless" == false ]]; then
+		printf '%s %s\n' "$common_packages" "$graphical_packages"
+	else
+		printf '%s\n' "$common_packages"
 	fi
 }
 
-rm -rf "$HOME/.cache/*"
+package_is_installed() {
+	local package="$1"
+	if command -v apt &> /dev/null; then
+		dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q 'install ok installed'
+	elif command -v pacman &> /dev/null; then
+		pacman -Q "$package" &> /dev/null
+	elif command -v dnf &> /dev/null; then
+		rpm -q "$package" &> /dev/null
+	else
+		return 1
+	fi
+}
+
+record_new_packages() {
+	if [[ -e "$package_state_file" ]]; then
+		return 0
+	fi
+
+	mkdir -p "$state_dir"
+	: > "$package_state_file"
+	local package
+	for package in $(selected_package_list); do
+		if ! package_is_installed "$package"; then
+			printf '%s\n' "$package" >> "$package_state_file"
+		fi
+	done
+}
+
+record_login_shells() {
+	if [[ -e "$shell_state_file" ]]; then
+		return 0
+	fi
+
+	local user_shell root_shell
+	user_shell=$(getent passwd "$USER" | cut -d: -f7)
+	root_shell=$(getent passwd root | cut -d: -f7)
+	mkdir -p "$state_dir"
+printf '%s:%s\n' "$USER" "$user_shell" > "$shell_state_file"
+printf 'root:%s\n' "$root_shell" >> "$shell_state_file"
+}
+
+restore_login_shells() {
+	if [[ ! -f "$shell_state_file" ]]; then
+		return 0
+	fi
+
+	local account shell
+	while IFS=: read -r account shell; do
+		[[ -n "$account" && -n "$shell" ]] || continue
+		sudo chsh -s "$shell" "$account" || true
+	done < "$shell_state_file"
+	rm -f "$shell_state_file"
+}
+
+remove_packages() {
+	if [[ ! -s "$package_state_file" ]]; then
+		printf 'No package manifest found; leaving installed packages untouched.\n'
+		return 0
+	fi
+
+	local packages=()
+	mapfile -t packages < "$package_state_file"
+	if command -v apt &> /dev/null; then
+		sudo apt remove -y "${packages[@]}"
+	elif command -v pacman &> /dev/null; then
+		sudo pacman -Rns --noconfirm "${packages[@]}"
+	elif command -v dnf &> /dev/null; then
+		sudo dnf remove -y "${packages[@]}"
+	fi
+	rm -f "$package_state_file"
+}
+
+if [[ -d "$HOME/.cache" ]]; then
+	find "$HOME/.cache" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+fi
 if [[ "$action" == install ]]; then
+	record_new_packages
 	install_packages
+	record_login_shells
+	set_default_shells
 fi
 
 if [[ "$server" == true ]]; then
-	echo "Server install: installing CLI software only..."
-	sudo chsh $USER -s $(which fish) || true
-	echo "Fish set as login shell. Setup complete."
-	exit 0
+	echo "Server install: deploying CLI software only..."
 fi
 
 echo
@@ -163,7 +238,7 @@ if [[ -d "$target_path/.git" ]]; then
 else
 	echo "Cloning dotfiles repository..."
 	rm -rf "$target_path"
-	git clone git@github.com:almostlight/dotfiles.git "$target_path" --depth 1
+	git clone https://github.com/almostlight/dotfiles.git "$target_path" --depth 1
 fi
 
 cd "$target_path"
@@ -172,9 +247,8 @@ git submodule update --init --recursive
 export DOTFILES_HEADLESS="$headless"
 if [[ "$action" == remove ]]; then
 	"$target_path/scripts/deploy.sh" --uninstall
+	restore_login_shells
 	remove_packages
 else
 	exec "$target_path/scripts/deploy.sh"
 fi
-
-ll 
