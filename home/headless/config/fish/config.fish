@@ -1,3 +1,5 @@
+# fish config
+source ~/.config/fish/config.d/*
 ## Environment variables 
 if string match -qrq '[wW][sS][lL]' (uname -r)
     export BROWSER=wslview
@@ -59,11 +61,17 @@ end
 alias v vim
 alias vl="vim  +\"'\"0"
 alias ff="fastfetch"
-
+alias c='clear'
+alias sizeof="du -cksh"
 alias update-grub="sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
-# alias rm="rmtrash"
+alias rm="rmtrash"
 alias rmdir="rmdirtrash"
 alias sudo="sudo "
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+abbr -a cp 'cp -i'
+abbr -a mv 'mv -i'
 alias r ranger
 alias whereami pwd
 alias fuck thefuck
@@ -72,16 +80,10 @@ alias py python
 alias neofetch fastfetch
 alias bt bluetui
 alias time_nvim="nvim --startuptime /dev/stdout +qall && echo && time nvim +q"
-alias sizeof="du -cksh"
+
 alias git-profile="xdg-open https://github.com/"$(git config user.name)""
 alias git-autopush="git add --all && git commit -am 'autosaving progress' && git push && git status"
 alias wol='sudo ether-wake'
-
-#alias kexec-reboot='\
-#        echo "kernel: $(uname -r)" \
-#        && kexec -l /boot/vmlinuz-$(uname -r) --initrd=/boot/initrd.img-$(uname -r) --reuse-cmdline \
-#        && systemctl kexec'
-
 alias kexec-reboot='\
         echo "kernel: $(uname -r)" \
         && sudo kexec -l /boot/vmlinuz-linux --initrd=/boot/initramfs-linux.img --reuse-cmdline \
