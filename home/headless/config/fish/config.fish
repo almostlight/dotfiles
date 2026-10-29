@@ -1,13 +1,23 @@
 # fish config
 ## Environment variables 
 if string match -qrq '[wW][sS][lL]' (uname -r)
-    export BROWSER=wslview
-    export DISTRO="wsl"
-    alias explorer="explorer.exe"
-    alias wsl="wsl.exe"
+	alias wslview="explorer.exe"
+	alias explorer="explorer.exe"
+	alias wsl="wsl.exe"
+	alias clip="clip.exe"
+	alias logout="logoff.exe"
+	alias shutdown="powershell.exe Stop-Computer"
 	alias reboot="powershell.exe Restart-Computer"
-    alias clip="clip.exe"
-    alias logout="logoff.exe"
+	alias reboot-deep="shutdown.exe /g /t 0"
+	alias komorebi="komorebi.exe"
+	alias pwsh="pwsh.exe"
+	alias logoff="logoff.exe"
+	alias komorebi-restart="komorebic.exe stop; komorebic.exe start"
+	export BROWSER=wslview
+	#export DISTRO="wsl"
+	function killall
+		/mnt/c/Windows/System32/taskkill.exe /F /IM "$argv[1].exe"
+	end
 else if string match -qrq '[aA]rch' (uname -r)
     export DISTRO="arch"
 end
@@ -25,15 +35,14 @@ export VISUAL=vim
 set fish_greeting
 ## Run commands if interactive mode
 if status is-interactive
-    echo
-    #fastfetch
-    fortune | cowsay
-    echo
-    if test "$DISTRO" = wsl
-        fastfetch --logo Windows\ 11_small
-    else if test "$DISTRO" = arch
-        fastfetch --logo arch_small
-    end
+	mkdir -p ~/.vim/backup
+	if test "$DISTRO" = wsl
+		fastfetch --logo Windows\ 11
+	else if test "$DISTRO" = arch
+		fastfetch --logo arch_small
+	else
+		fastfetch
+	end
 end
 
 if test -n "$WAYLAND_DISPLAY"
@@ -56,8 +65,8 @@ alias ff="fastfetch"
 alias c='clear'
 alias sizeof="du -cksh"
 alias update-grub="sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
-alias rm="rmtrash"
-alias rmdir="rmdirtrash"
+alias rm="trash-put"
+alias rmdir="trash-put"
 alias sudo="sudo "
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -78,6 +87,7 @@ alias kexec-reboot='\
         echo "kernel: $(uname -r)" \
         && sudo kexec -l /boot/vmlinuz-linux --initrd=/boot/initramfs-linux.img --reuse-cmdline \
         && sudo systemctl kexec'
+alias yt2mp4='yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]" --merge-output-format mp4 '
 
 # Created by `pipx` on 2026-01-10 18:53:31
 set PATH $PATH $HOME/.local/bin

@@ -59,7 +59,7 @@ set colorcolumn=80
 " Spell
 " ============================================================================
 
-set spell
+"set spell
 set spelllang=pl
 
 " ============================================================================
@@ -192,12 +192,10 @@ nnoremap <leader>q :lopen<CR>
 
 if exists('*execute')
 
-```
 augroup vimtex-cleanup
     autocmd!
     autocmd VimLeave *.tex silent! VimtexStop | silent! VimtexClean
 augroup END
-```
 
 endif
 
@@ -207,7 +205,6 @@ endif
 "
 if exists('*matchadd')
 
-```
 function! s:HighlightYank() abort
     silent! matchdelete(get(w:, 'yank_match_id', -1))
 
@@ -230,7 +227,6 @@ augroup highlight-yank
     autocmd!
     autocmd TextYankPost * silent! call <SID>HighlightYank()
 augroup END
-```
 
 endif
 
@@ -248,12 +244,10 @@ nnoremap <leader>e :Explore<CR>
 augroup netrw-custom
 autocmd!
 
-```
 autocmd FileType netrw nnoremap <buffer> <C-t> -
 
 autocmd FileType netrw nnoremap <buffer> ?
             \ :help netrw<CR>
-```
 
 augroup END
 

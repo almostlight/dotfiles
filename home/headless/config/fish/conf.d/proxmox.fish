@@ -1,12 +1,15 @@
 if status is-interactive
-    set -U fish_greeting
-    clear
-    uptime
-    if test -e /sys/class/power_supply/BAT0/capacity
-        cat /var/log/batcheck.log
-    end
-    pwrstat -status | awk -F' ' '/State/ {print "UPS status:\t", $2, $3}'
-    pct list
+	if command -v pveversion
+	    set -U fish_greeting
+	    clear
+	    uptime
+	    if test -e /sys/class/power_supply/BAT0/capacity
+	        cat /var/log/batcheck.log
+	    end
+	    pwrstat -status | awk -F' ' '/State/ {print "UPS status:\t", $2, $3}'
+	    pct list
+		echo
+	end
 end
 
 alias reboot='echo "unavailable on this system"'
