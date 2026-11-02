@@ -242,7 +242,9 @@ else
 fi
 
 cd "$target_path"
-git submodule update --init --recursive
+if [[ "$headless" == false ]]; then
+	git submodule update --init --recursive
+fi
 
 export DOTFILES_HEADLESS="$headless"
 if [[ "$action" == remove ]]; then

@@ -20,8 +20,9 @@ It will install necessary packages, clone the repository, and deploy the config.
 The script asks whether the system is WSL/headless so graphical packages and
 desktop services can be skipped. Headless mode deploys only the base
 configuration; graphical mode deploys that same base plus the graphical
-configuration. Vim and fish are installed by default, with fish configured as
-the login shell for both the current user and root.
+configuration, including the icon pack. The icon pack is not downloaded for
+headless installs. Vim and fish are installed by default, with fish configured
+as the login shell for both the current user and root.
 Choosing `r` at the first prompt removes the packages installed by the script
 and restores the most recent configuration backup.
 #### 2. Manual

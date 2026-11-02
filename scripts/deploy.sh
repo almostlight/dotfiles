@@ -84,7 +84,7 @@ link_directory_contents() {
     fi
     # Enable dotglob to include dotfiles
         local old_shopt
-        old_shopt=$(shopt -p dotglob nullglob 2>/dev/null)
+    old_shopt=$(shopt -p dotglob nullglob 2>/dev/null || true)
     shopt -s dotglob nullglob
     # Ensure target base directory exists
     mkdir -p "$target_base"
@@ -109,7 +109,7 @@ unlink_directory_contents() {
     local target_base="$2"
 
         local old_shopt
-        old_shopt=$(shopt -p dotglob nullglob 2>/dev/null)
+    old_shopt=$(shopt -p dotglob nullglob 2>/dev/null || true)
     shopt -s dotglob nullglob
     for item in "$source_dir"/*; do
         [[ -e "$item" ]] || continue
@@ -222,4 +222,3 @@ log_info "Setup completed successfully"
 if [[ "${DOTFILES_HEADLESS:-false}" != true ]]; then
     killall startplasma-wayland
 fi
-
