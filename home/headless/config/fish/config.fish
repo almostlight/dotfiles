@@ -1,31 +1,21 @@
 # fish config
+set PATH $PATH $HOME/.local/bin
+
 ## Environment variables
-if string match -qrq '[wW][sS][lL]' (uname -r)
-    alias wslview="explorer.exe"
-    alias explorer="explorer.exe"
-    alias wsl="wsl.exe"
-    alias clip="clip.exe"
-    alias logout="logoff.exe"
-    alias shutdown="powershell.exe Stop-Computer"
-    alias reboot="powershell.exe Restart-Computer"
-    alias reboot-deep="shutdown.exe /g /t 0"
-    alias komorebi="komorebi.exe"
-    alias pwsh="pwsh.exe"
-    alias logoff="logoff.exe"
-    alias komorebi-restart="komorebic.exe stop; komorebic.exe start"
-    export BROWSER=wslview
-    set -gx DISTRO wsl
-    function killall
-        /mnt/c/Windows/System32/taskkill.exe /F /IM "$argv[1].exe"
-    end
-else if string match -qrq '[aA]rch' (uname -r)
+if string match -qrq '[aA]rch' (uname -r)
     set -gx DISTRO arch
 end
 
 if test "$XDG_SESSION_TYPE" = wayland
-    alias logout="pkill -SIGTERM '.*wayland.*'"
-    alias gpick='grim -g "$(slurp -p)" -t ppm - | magick - -format "%[pixel:p{0,0}]" txt:-'
-    alias xclip="wl-copy"
+    if type -q pkill
+        alias logout="pkill -SIGTERM '.*wayland.*'"
+    end
+    if type -q grim; and type -q slurp; and type -q magick
+        alias gpick='grim -g "$(slurp -p)" -t ppm - | magick - -format "%[pixel:p{0,0}]" txt:-'
+    end
+    if type -q wl-copy
+        alias xclip="wl-copy"
+    end
 end
 
 export QT_QPA_PLATFORMTHEME=qt6ct
@@ -34,56 +24,84 @@ export VISUAL=vim
 ## Disable fish default greeting 
 set fish_greeting
 ## Run commands if interactive mode
-if status is-interactive
+if status is-interactive; and not set -q FASTFETCH_STARTUP
     mkdir -p ~/.vim/backup
-    if test "$DISTRO" = wsl; and type -q fastfetch
-        fastfetch --logo Windows\ 11
-    else if test "$DISTRO" = arch; and type -q fastfetch
-        fastfetch --logo arch_small
-    else if type -q fastfetch
+    if type -q fastfetch
+        set -lx FASTFETCH_STARTUP 1
         fastfetch
     end
 end
 
 if test -n "$WAYLAND_DISPLAY"
-    alias xterm="foot"
-    function code --wraps code --description "run code with fractional scaling"
-        command code --ozone-platform=wayland $argv &
+    if type -q foot
+        alias xterm="foot"
+    end
+    if type -q code
+        function code --wraps code --description "run code with fractional scaling"
+            command code --ozone-platform=wayland $argv &
+        end
     end
 end
 
-function supergfxctl --wraps supergfxctl
-    command supergfxctl -gs $argv
+if type -q supergfxctl
+    function supergfxctl --wraps supergfxctl
+        command supergfxctl -gs $argv
+    end
 end
 
 abbr -a cp 'cp -i'
 abbr -a mv 'mv -i'
-alias sudo!="history | head -n1 | xargs sudo"
 alias l="ls"
-alias v="vim"
-alias vl="vim  +\"'\"0"
-alias ff="fastfetch"
 alias c="clear"
 alias sizeof="du -cksh"
-alias update-grub="sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
-alias rm="trash-put"
-alias rmdir="trash-put"
-alias sudo="sudo "
-alias r="ranger"
 alias whereami="pwd"
-alias fuck="thefuck"
-alias python="python3"
-alias py="python"
-alias neofetch="fastfetch"
-alias bt="bluetui"
-alias git-profile="xdg-open https://github.com/(git config user.name)"
-alias git-autopush="git add --all && git commit -am 'autosaving progress' && git push && git status"
-alias wol="sudo ether-wake"
-alias kexec-reboot='\
-        echo "kernel: $(uname -r)" \
-        && sudo kexec -l /boot/vmlinuz-linux --initrd=/boot/initramfs-linux.img --reuse-cmdline \
-        && sudo systemctl kexec'
-alias yt2mp4='yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]" --merge-output-format mp4 '
-
-# Created by `pipx` on 2026-01-10 18:53:31
-set PATH $PATH $HOME/.local/bin
+if type -q sudo
+    alias sudo!="history | head -n1 | xargs sudo"
+    alias sudo="sudo "
+end
+if type -q vim
+    alias v="vim"
+    alias vl="vim  +\"'\"0"
+end
+if type -q fastfetch
+    alias ff="fastfetch"
+    alias neofetch="fastfetch"
+end
+if type -q sudo; and type -q grub2-mkconfig
+    alias update-grub="sudo grub2-mkconfig -o /boot/grub2/grub.cfg"
+end
+if type -q trash-put
+    alias rm="trash-put"
+    alias rmdir="trash-put"
+end
+if type -q ranger
+    alias r="ranger"
+end
+if type -q thefuck
+    alias fuck="thefuck"
+end
+if type -q python3
+    alias python="python3"
+    alias py="python"
+end
+if type -q bluetui
+    alias bt="bluetui"
+end
+if type -q xdg-open; and type -q git
+    alias git-profile="xdg-open https://github.com/(git config user.name)"
+end
+if type -q git
+    alias git-autopush="git add --all && git commit -am 'autosaving progress' && git push && git status"
+end
+if type -q sudo; and type -q ether-wake
+    alias wol="sudo ether-wake"
+end
+if type -q sudo; and type -q kexec; and type -q systemctl
+    alias kexec-reboot='\
+            echo "kernel: $(uname -r)" \
+            && sudo kexec -l /boot/vmlinuz-linux --initrd=/boot/initramfs-linux.img --reuse-cmdline \
+            && sudo systemctl kexec'
+end
+if type -q yt-dlp
+    alias yt2mp4='yt-dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]" --merge-output-format mp4 '
+end
