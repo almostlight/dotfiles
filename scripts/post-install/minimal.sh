@@ -2,8 +2,10 @@
 set -Eeuo pipefail
 
 readonly config_url="https://raw.githubusercontent.com/almostlight/dotfiles/main/home/headless/config/fish/config.fish"
+readonly fastfetch_config_url="https://raw.githubusercontent.com/almostlight/dotfiles/main/home/headless/config/fastfetch/config.jsonc"
 readonly current_user="$(id -un)"
 readonly config_path="${HOME}/.config/fish/config.fish"
+readonly fastfetch_config_path="${HOME}/.config/fastfetch/config.jsonc"
 
 if [[ $EUID -eq 0 ]]; then
 	sudo_cmd=()
@@ -53,10 +55,20 @@ fi
 
 mkdir -p "$(dirname "$config_path")"
 config_tmp=$(mktemp)
-trap 'rm -f "$config_tmp"' EXIT
+fastfetch_config_tmp=
+trap 'rm -f "$config_tmp" "$fastfetch_config_tmp"' EXIT
 wget --no-verbose --output-document="$config_tmp" "$config_url"
 if [[ ! -e "$config_path" ]] || ! cmp -s "$config_tmp" "$config_path"; then
 	mv "$config_tmp" "$config_path"
+fi
+
+if command -v fastfetch >/dev/null 2>&1; then
+	mkdir -p "$(dirname "$fastfetch_config_path")"
+	fastfetch_config_tmp=$(mktemp)
+	wget --no-verbose --output-document="$fastfetch_config_tmp" "$fastfetch_config_url"
+	if [[ ! -e "$fastfetch_config_path" ]] || ! cmp -s "$fastfetch_config_tmp" "$fastfetch_config_path"; then
+		mv "$fastfetch_config_tmp" "$fastfetch_config_path"
+	fi
 fi
 
 mkdir -p "$HOME/.ssh"
