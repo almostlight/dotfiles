@@ -19,7 +19,7 @@ update_repository() {
 	if [[ -n "$(git status --porcelain)" ]]; then
 		had_local_changes=true
 		printf 'Local changes found; preserving them while updating the repository...\n'
-		if ! git stash push --include-untracked -m "setup.sh preserve local changes"; then
+		if ! git stash push --include-untracked -m "full.sh preserve local changes"; then
 			printf 'Could not preserve local changes; aborting repository update.\n' >&2
 			return 1
 		fi
@@ -236,8 +236,11 @@ if [[ -d "$target_path/.git" ]]; then
 	echo "Dotfiles repository target path exists! Pulling repository..."
 	cd "$target_path" && update_repository
 else
+	if [[ -e "$target_path" ]]; then
+		printf 'Error: target path exists but is not a Git repository: %s\n' "$target_path" >&2
+		exit 1
+	fi
 	echo "Cloning dotfiles repository..."
-	rm -rf "$target_path"
 	git clone https://github.com/almostlight/dotfiles.git "$target_path" --depth 1
 fi
 

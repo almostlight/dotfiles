@@ -1,0 +1,105 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.41/schema.json",
+  "window_hiding_behaviour": "Cloak",
+  "cross_monitor_move_behaviour": "Insert",
+  "default_workspace_padding": 0,
+  "default_container_padding": 0,
+  "border": true,
+  "border_width": 2,
+  "border_offset": -1,
+  "transparency": false,
+  "transparency_alpha": 255,
+  "theme": {
+    "palette": "Custom",
+    "colours": {
+      "base_00": "#100C04",
+      "base_01": "#111F3C",
+      "base_02": "#657694",
+      "base_03": "#8D8F8F",
+      "base_04": "#657694",
+      "base_05": "#F9F9F9",
+      "base_06": "#FFCE5C",
+      "base_07": "#F9F9F9",
+      "base_08": "#8D8F8F",
+      "base_09": "#FFCE5C",
+      "base_0a": "#DFAE24",
+      "base_0b": "#DFAE24",
+      "base_0c": "#657694",
+      "base_0d": "#DFAE24",
+      "base_0e": "#FFCE5C",
+      "base_0f": "#100C04"
+    },
+    "single_border": "Base0D",
+    "stack_border": "Base0B",
+    "monocle_border": "Base0F",
+    "floating_border": "Base09",
+    "unfocused_border": "Base03",
+    "unfocused_locked_border": "Base08",
+    "stackbar_focused_text": "Base07",
+    "stackbar_unfocused_text": "Base05",
+    "stackbar_background": "Base01",
+    "bar_accent": "Base0D"
+  },
+  "whitelist": [],
+  "blacklist": [],
+
+"manage_rules": [
+  { "kind": "Exe", "id": "MATLAB.exe" }
+],
+"float_rules": [
+  { "kind": "Class", "id": "SunAwtFrame" },
+  { "kind": "Class", "id": "ApplicationFrameWindow" },
+  { "kind": "Class", "id": "AutoHotkeyGUI" },
+  { "kind": "Class", "id": "AutoHotkey" },
+  { "kind": "Exe", "id": "SnippingTool.exe" },
+  { "kind": "Exe", "id": "AutoHotkeyUX.exe" },
+  { "kind": "Exe", "id": "Spotify.exe" },
+  { "kind": "Exe", "id": "NordVPN.exe" },
+  { "kind": "Exe", "id": "EdgeBlock_x64.exe" },
+  { "kind": "Exe", "id": "Photos.exe" },
+  { "kind": "Title", "id": "Figure " }
+],
+
+  "monitors": [
+    {
+      "workspaces": [
+        {
+          "name": "㊀",
+          "layout": "BSP"
+        },
+        {
+          "name": "㊁",
+          "layout": "BSP"
+        },
+        {
+          "name": "㊂",
+          "layout": "BSP"
+        },
+        {
+          "name": "㊃",
+          "layout": "BSP"
+        }
+      ]
+    },
+    {
+      "workspaces": [
+        {
+          "name": "㊀",
+          "layout": "BSP"
+        },
+        {
+          "name": "㊁",
+          "layout": "BSP"
+        },
+        {
+          "name": "㊂",
+          "layout": "BSP"
+        },
+        {
+          "name": "㊃",
+          "layout": "BSP"
+        }
+      ]
+    }
+  ]
+}

@@ -50,6 +50,10 @@ link_item() {
     local target="$2"
     local itemname
     itemname=$(basename "$source_item")
+    if [[ -L "$target" ]] && [[ "$(readlink -f "$target")" == "$(readlink -f "$source_item")" ]]; then
+        log_info "$itemname is already linked at $target"
+        return 0
+    fi
     # Backup existing file/directory
     if [[ -e "$target" || -L "$target" ]]; then
         # Create backup path that includes the item name

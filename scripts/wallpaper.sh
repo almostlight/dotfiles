@@ -1,6 +1,6 @@
 #! /bin/bash
 
-WP_FILE=~/wallpaper
+WP_FILE="$HOME/.config/wallpaper"
 
 if [[ -e $WP_FILE ]]; then
 	unlink $WP_FILE
@@ -22,4 +22,3 @@ while [[ $# -gt 0 ]]; do
 done
 
 ln -s $POSITIONAL_ARGS $WP_FILE
-

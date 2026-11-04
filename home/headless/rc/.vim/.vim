@@ -1,0 +1,1 @@
+/home/lukasz/github/dotfiles_by_almostlight/scripts/../home/headless/rc/.vim
