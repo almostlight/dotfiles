@@ -28,7 +28,7 @@ and restores the most recent configuration backup.
 
 For a minimal headless setup, run:
 ```bash
-wget -qO- https://raw.githubusercontent.com/almostlight/dotfiles/main/scripts/post-install/minimal.sh | bash
+curl -sSL https://raw.githubusercontent.com/almostlight/dotfiles/main/scripts/post-install/minimal.sh | bash
 ```
 This installs Git, an SSH server, fish, and wget; configures fish for the
 current user; downloads the fish configuration; and prepares a GitHub SSH key.
