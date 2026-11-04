@@ -1,12 +1,13 @@
 #!/bin/bash
 set -Eeuo pipefail
 
-apt_common_pkg_list="git curl jq tailscale vim ranger unzip openssh-client build-essential fastfetch trash-cli tesseract-ocr wget fish"
+apt_common_pkg_list="git curl jq tailscale vim ranger unzip openssh-server build-essential fastfetch trash-cli tesseract-ocr wget fish"
 apt_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fonts-firacode"
 pacman_common_pkg_list="git curl jq tailscale vim ranger unzip openssh base-devel fastfetch trash-cli tesseract wget fish"
 pacman_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fira-code-fonts"
 dnf_common_pkg_list="git curl jq tailscale vim ranger unzip openssh base-devel fastfetch trash-cli tesseract wget fish"
 dnf_graphical_pkg_list="firefox sway waybar wmenu wl-clipboard alacritty fira-code-fonts"
+current_user=$(id -un)
 git_dir="$HOME/github"
 target_path="$git_dir/dotfiles_by_almostlight"
 state_dir="$HOME/.local/state/dotfiles-by-almostlight"
@@ -119,7 +120,7 @@ set_default_shells() {
 	local fish_path
 	fish_path=$(command -v fish)
 
-	sudo chsh -s "$fish_path" "$USER" || true
+	sudo chsh -s "$fish_path" "$current_user" || true
 	sudo chsh -s "$fish_path" root || true
 }
 
@@ -176,10 +177,10 @@ record_login_shells() {
 	fi
 
 	local user_shell root_shell
-	user_shell=$(getent passwd "$USER" | cut -d: -f7)
+	user_shell=$(getent passwd "$current_user" | cut -d: -f7)
 	root_shell=$(getent passwd root | cut -d: -f7)
 	mkdir -p "$state_dir"
-printf '%s:%s\n' "$USER" "$user_shell" > "$shell_state_file"
+printf '%s:%s\n' "$current_user" "$user_shell" > "$shell_state_file"
 printf 'root:%s\n' "$root_shell" >> "$shell_state_file"
 }
 

@@ -2,7 +2,8 @@
 set -Eeuo pipefail
 
 readonly config_url="https://raw.githubusercontent.com/almostlight/dotfiles/main/home/headless/config/fish/config.fish"
-readonly config_path="$HOME/.config/fish/config.fish"
+readonly current_user="$(id -un)"
+readonly config_path="${HOME}/.config/fish/config.fish"
 
 if [[ $EUID -eq 0 ]]; then
 	sudo_cmd=()
@@ -46,8 +47,8 @@ fish_path=$(command -v fish)
 if ! grep -Fxq "$fish_path" /etc/shells 2>/dev/null; then
 	printf '%s\n' "$fish_path" | run_as_root tee -a /etc/shells >/dev/null
 fi
-if [[ "$(getent passwd "$USER" | cut -d: -f7)" != "$fish_path" ]]; then
-	run_as_root chsh -s "$fish_path" "$USER"
+if [[ "$(getent passwd "$current_user" | cut -d: -f7)" != "$fish_path" ]]; then
+	run_as_root chsh -s "$fish_path" "$current_user"
 fi
 
 mkdir -p "$(dirname "$config_path")"

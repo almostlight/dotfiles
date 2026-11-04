@@ -14,15 +14,15 @@ if string match -qrq '[wW][sS][lL]' (uname -r)
 	alias logoff="logoff.exe"
 	alias komorebi-restart="komorebic.exe stop; komorebic.exe start"
 	export BROWSER=wslview
-	#export DISTRO="wsl"
+	set -gx DISTRO wsl
 	function killall
 		/mnt/c/Windows/System32/taskkill.exe /F /IM "$argv[1].exe"
 	end
 else if string match -qrq '[aA]rch' (uname -r)
-    export DISTRO="arch"
+    set -gx DISTRO arch
 end
 
-if string match -qrq wayland (echo $XDG_SESSION_TYPE)
+if test "$XDG_SESSION_TYPE" = wayland
     alias logout="pkill -SIGTERM '.*wayland.*'"
     alias gpick='grim -g "$(slurp -p)" -t ppm - | magick - -format "%[pixel:p{0,0}]" txt:-'
     alias xclip='wl-copy'
@@ -36,11 +36,11 @@ set fish_greeting
 ## Run commands if interactive mode
 if status is-interactive
 	mkdir -p ~/.vim/backup
-	if test "$DISTRO" = wsl
+	if test "$DISTRO" = wsl; and type -q fastfetch
 		fastfetch --logo Windows\ 11
-	else if test "$DISTRO" = arch
+	else if test "$DISTRO" = arch; and type -q fastfetch
 		fastfetch --logo arch_small
-	else
+	else if type -q fastfetch
 		fastfetch
 	end
 end
