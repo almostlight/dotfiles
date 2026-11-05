@@ -1,5 +1,5 @@
 # fish config
-set PATH $PATH $HOME/.local/bin /sbin/*
+set PATH $PATH $HOME/.local/bin /usr/local/sbin /usr/sbin /sbin
 
 ## Environment variables
 if string match -qrq '[aA]rch' (uname -r)
